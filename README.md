@@ -1,7 +1,7 @@
 # Staff-JH
 A system built for Users to register and manage Invoices associated with customers
 
-#User Flow
+# User Flow
 
 [Start] --> [Login Page]
    |
