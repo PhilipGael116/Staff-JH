@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer, Payment & Register</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <header>
+    <h1>Business Portal</h1>
+    <nav>
+      <a href="#customer">Customer</a>
+      <a href="#payment">Payment</a>
+      <a href="#register">Register</a>
+    </nav>
+  </header>
+
+  <!-- Customer Section -->
+  <section id="customer">
+    <h2>Customer Info</h2>
+    <form>
+      <label>Full Name</label>
+      <input type="text" placeholder="Enter customer name" required>
+      
+      <label>Email</label>
+      <input type="email" placeholder="Enter email" required>
+
+      <label>Phone</label>
+      <input type="tel" placeholder="Enter phone number" required>
+
+      <label>Address</label>
+      <input type="text" placeholder="Enter address">
+
+      <button type="submit">Save Customer</button>
+    </form>
+  </section>
+
+  <!-- Payment Section -->
+  <section id="payment">
+    <h2>Payment Info</h2>
+    <form>
+      <label>Customer ID</label>
+      <input type="text" placeholder="Enter customer ID" required>
+
+      <label>Amount</label>
+      <input type="number" placeholder="Enter amount" required>
+
+      <label>Payment Method</label>
+      <select required>
+        <option value="">Select</option>
+        <option>Cash</option>
+        <option>Credit Card</option>
+        <option>Mobile Money</option>
+      </select>
+
+      <label>Payment Date</label>
+      <input type="date" required>
+
+      <button type="submit">Process Payment</button>
+    </form>
+  </section>
+
+  <!-- Register Section -->
+  <section id="register">
+    <h2>User Register</h2>
+    <form>
+      <label>Username</label>
+      <input type="text" placeholder="Choose username" required>
+
+      <label>Email</label>
+      <input type="email" placeholder="Enter email" required>
+
+      <label>Password</label>
+      <input type="password" placeholder="Enter password" required>
+
+      <label>Confirm Password</label>
+      <input type="password" placeholder="Re-enter password" required>
+
+      <button type="submit">Register</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Business Portal. All rights reserved.</p>
+  </footer>
+</body>
+</html>

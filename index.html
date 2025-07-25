@@ -3,34 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>registration page</title>
-    <link rel="stylesheet" href="style.CSS">
+    <title>Document</title>
+    <link rel="stylesheet" href="cascading.css"/>
 </head>
 <body>
-   <div class="header"> 
-      <ul>
-          <li><a href="#index.html">Home</a></li>
-          <li><a href="#About.html">About</a></li>
-          <li><a href="#Services">Service</a></li>
-          <li><a href="#Registration.html">Registration</a></li>
-          <li><a href="#Contact.html">Contact</a></li>
-      </ul> 
-   </div>
+     <!-- ------------------ PAGE CONTENT ------------------ -->
+  <header>
+    <h1>Customer Database</h1>
+    <button id="addCustomerBtn">+ Add New Customer</button>
+  </header>
 
-   </div>
-  <div class="register-container">
-     <form class="register-form">
-        <h2>Create Account</h2>
+  <section class="search-filter">
+    <input type="text" placeholder="Search by name or email" id="searchInput" />
+    <select id="genderFilter">
+      <option value="">All Genders</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+  </section>
 
-         <input type="text" placeholder="Full Name" required>
-         <input type="email" placeholder="Email Address" required>
-         <input type="password" placeholder="Password" required>
-        <input type="password" placeholder="Confirm Password" required>
+  <section class="customer-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="customerList">
+       <tr data-name="John Doe" data-email="john@example.com" data-gender="Male">
+          <td>John Doe</td>
+          <td>john@gmail.com</td>
+          <td>Male</td>
+          <td>657023928</td>
+          <td><button>View</button></td>
+        </tr>
+        <tr data-name="Jane Smith" data-email="jane@example.com" data-gender="Female">
+          <td>Jane Smith</td>
+          <td>jane@gmail.com</td>
+          <td>Female</td>
+          <td>692792010</td>
+          <td><button>View</button></td>
+        </tr>
+        <tr data-name="Ernesto" data-email="ernesto@gmail.com" data-gender="Male">
+          <td>Ernesto</td>
+          <td>ernesto@gmail.com</td>
+          <td>Male</td>
+          <td>673876826</td>
+          <td><button>View</button></td>
+        </tr>
+        <tr data-name="Godlove coder" data-email="Godlove@example.com" data-gender="Male">
+          <td>Godlove coder</td>
+          <td>Godlove@gmail.com</td>
+          <td>Male</td>
+          <td>639280921</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Mary" data-email="mary@gmail.com" data-gender="Female">
+          <td>Mary</td>
+          <td>mary@gmail.com</td>
+          <td>Female</td>
+          <td>693870292</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Chris" data-email="chris@gmail.com" data-gender="Female">
+          <td>Chris</td>
+          <td>chris@gmail.com</td>
+          <td>Female</td>
+          <td>652292827</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Paul" data-email="paul@gmail.com" data-gender="Male">
+          <td>Paul</td>
+          <td>paul@gmail.com</td>
+          <td>Male</td>
+          <td>682762920</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Raul" data-email="raul@gmail.com" data-gender="Male">
+          <td>Raul</td>
+          <td>raul@gmail.com</td>
+          <td>Male</td>
+          <td>625872919</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Ashley" data-email="ashley@gmail.com" data-gender="Female">
+          <td>Ashley</td>
+          <td>ashley@gmail.com</td>
+          <td>Female</td>
+          <td>683792073</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="pearl" data-email="pearl@gmail.com" data-gender="Female">
+          <td>pearl</td>
+          <td>pearl@gmail.com</td>
+          <td>Female</td>
+          <td>682879287</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Raissa" data-email="Raissa@gmail.com" data-gender="Female">
+          <td>Raissa</td>
+          <td>Raissa@gmail.com</td>
+          <td>Female</td>
+          <td>697982972</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="jean paul" data-email="jean56@gmail.com" data-gender="Male">
+          <td>jean paul</td>
+          <td>jean56@gmail.com</td>
+          <td>Male</td>
+          <td>674835656</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Mary Andy" data-email="Andy@gmail.com" data-gender="Female">
+          <td>Mary Andy</td>
+          <td>Andy@gmail.com</td>
+          <td>Female</td>
+          <td>673073738</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Peter George" data-email=" George67@gmail.com" data-gender="Male">
+          <td>Peter George</td>
+          <td>George67@gmail.com</td>
+          <td>Male</td>
+          <td>675676700</td>
+          <td><button>View</button></td>
+        </tr>
+         <tr data-name="Alima Mahamadou" data-email="Alima56@gmail.com" data-gender="Female">
+          <td>Alima Mahamadou</td>
+          <td>Alima56@gmail.com</td>
+          <td>Female</td>
+          <td>698982856</td>
+          <td><button>View</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-         <button type="submit">Register</button>
-
-        <p class="login-link">Already have an account? <a href="#">Login</a></p>
-     </form>
+  <!-- ------------------ MODAL FORM ------------------ -->
+  <div class="modal hidden" id="customerModal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2>Add New Customer</h2>
+      <form id="customerFormElement">
+        <input type="text" id="name" placeholder="Full Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="text" id="phone" placeholder="Phone" required />
+        <input type="text" id="address" placeholder="Address" />
+        <select id="gender" required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <button type="submit">Save Customer</button>
+      </form>
+    </div>
   </div>
+
+  <!-- ------------------ JAVASCRIPT ------------------ -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const openModalBtn = document.getElementById("addCustomerBtn");
+      const closeModalBtn = document.getElementById("closeModal");
+      const modal = document.getElementById("customerModal");
+      const form = document.getElementById("customerFormElement");
+
+      const searchInput = document.getElementById("searchInput");
+      const genderFilter = document.getElementById("genderFilter");
+      const customerList = document.getElementById("customerList");
+
+      // ✅ Open modal
+      openModalBtn.addEventListener("click", () => {
+        modal.classList.remove("hidden");
+      });
+
+      // ✅ Close modal
+      closeModalBtn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+      });
+
+      // ✅ Close when clicking outside the modal content
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.add("hidden");
+        }
+      });
+
+      // ✅ Filter logic
+      function filterCustomers() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedGender = genderFilter.value;
+        const rows = customerList.querySelectorAll("tr");
+
+        rows.forEach(row => {
+          const name = row.dataset.name.toLowerCase();
+          const email = row.dataset.email.toLowerCase();
+          const gender = row.dataset.gender;
+          const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm);
+          const matchesGender = selectedGender === "" || gender === selectedGender;
+          row.style.display = matchesSearch && matchesGender ? "" : "none";
+        });
+      }
+
+      searchInput.addEventListener("input", filterCustomers);
+      genderFilter.addEventListener("change", filterCustomers);
+
+      // ✅ Add customer to table
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const gender = document.getElementById("gender").value;
+
+        const newRow = document.createElement("tr");
+        newRow.dataset.name = name;
+        newRow.dataset.email = email;
+        newRow.dataset.gender = gender;
+        newRow.innerHTML = `
+          <td>${name}</td>
+          <td>${email}</td>
+          <td>${gender}</td>
+          <td>${phone}</td>
+          <td><button>View</button></td>
+        `;
+        customerList.appendChild(newRow);
+
+      form.reset();
+        modal.classList.add("hidden");
+      });
+    });
+  </script>
+    
 </body>
 </html>
