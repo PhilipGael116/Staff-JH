@@ -52,8 +52,9 @@
             
             // Delete item button
             document.getElementById('invoice-items').addEventListener('click', function(e) {
-                if (e.target.classList.contains('delete-btn')) {
-                    const row = e.target.closest('tr');
+                const deleteBtn = e.target.closest('.delete-btn');
+                if (deleteBtn) {
+                    const row = deleteBtn.closest('tr');
                     if (document.querySelectorAll('#invoice-items tr').length > 1) {
                         row.remove();
                         renumberItems();
