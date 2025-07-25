@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Payment Portal - Secure Payment Processing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+          background: #e0cb88;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        /* Main Payment Section */
+        .payment-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .payment-header {
+            /*background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);*/
+            background: linear-gradient(135deg,rgb(27, 25, 25) , rgb(28, 26, 26) 50%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .payment-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .payment-header p {
+            opacity: 0.9;
+        }
+
+        /* Invoice Details */
+        .invoice-details {
+            background: #f8f9fa;
+            padding: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .invoice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .invoice-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .invoice-item label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .invoice-item .value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .invoice-item.total .value {
+            font-size: 2rem;
+            color: #28a745;
+        }
+
+        /* Payment Form */
+        .payment-form {
+            padding: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input:hover,
+        .form-group select:hover {
+            border-color: #4facfe;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin-bottom: 30px;
+        }
+
+        .payment-methods h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .payment-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .payment-option:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .payment-option.selected {
+            border-color: #4facfe;
+            background: #4facfe;
+            color: white;
+        }
+
+        .payment-option .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .payment-option .name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Transaction ID Section */
+        .transaction-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .transaction-id-group {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .transaction-id-group input {
+            flex: 1;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Payment Summary */
+        .payment-summary {
+           /* background: linear-gradient(135deg, #28a745 0%, #20c997 100%);*/
+                 background: linear-gradient(135deg,rgb(27, 25, 25) , rgb(28, 26, 26) 50%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .payment-summary h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-item label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .summary-item .value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Process Payment Button */
+        .process-payment {
+            /*background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);*/
+            background: rgb(68, 68, 185);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .process-payment:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .process-payment:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .success-message h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .security-badge .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .transaction-id-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in">
+            <h1>🏦 Invoice Payment Portal</h1>
+            <p>Secure and efficient payment processing for your invoices</p>
+        </div>
+
+        <!-- Main Payment Section -->
+        <div class="payment-section fade-in">
+            <!-- Payment Header -->
+            <div class="payment-header">
+                <h2>Complete Your Payment</h2>
+                <p>Review your invoice details and process your payment securely</p>
+            </div>
+
+            <!-- Invoice Details -->
+            <div class="invoice-details">
+                <div class="invoice-grid">
+                    <div class="invoice-item">
+                        <label>Invoice Number</label>
+                        <div class="value">INV-2024-001</div>
+                    </div>
+                    <div class="invoice-item">
+                        <label>Due Date</label>
+                        <div class="value">February 15, 2024</div>
+                    </div>
+                    <div class="invoice-item">
+                        <label>Company</label>
+                        <div class="value">Acme Corporation</div>
+                    </div>
+                    <div class="invoice-item">
+                        <label>Description</label>
+                        <div class="value">Web Development Services</div>
+                    </div>
+                    <div class="invoice-item total">
+                        <label>Total Amount</label>
+                        <div class="value">$1,250.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="payment-form">
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <h3>💳 Select Payment Method</h3>
+                    <div class="payment-options">
+                        <div class="payment-option" data-method="credit-card">
+                            <span class="icon">💳</span>
+                            <span class="name">Credit Card</span>
+                        </div>
+                        <div class="payment-option" data-method="debit-card">
+                            <span class="icon">💸</span>
+                            <span class="name">Debit Card</span>
+                        </div>
+                        <div class="payment-option" data-method="bank-transfer">
+                            <span class="icon">🏦</span>
+                            <span class="name">Bank Transfer</span>
+                        </div>
+                        <div class="payment-option" data-method="paypal">
+                            <span class="icon">🅿️</span>
+                            <span class="name">PayPal</span>
+                        </div>
+                        <div class="payment-option" data-method="stripe">
+                            <span class="icon">⚡</span>
+                            <span class="name">Stripe</span>
+                        </div>
+                        <div class="payment-option" data-method="apple-pay">
+                            <span class="icon">🍎</span>
+                            <span class="name">Apple Pay</span>
+                        </div>
+                        <div class="payment-option" data-method="google-pay">
+                            <span class="icon">🤖</span>
+                            <span class="name">Google Pay</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Details Form -->
+                <div class="form-grid">
+                    <div>
+                        <div class="form-group">
+                            <label for="payment-date">📅 Payment Date</label>
+                            <input type="date" id="payment-date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="amount-paid">💰 Amount Paid</label>
+                            <input type="number" id="amount-paid" placeholder="0.00" step="0.01" min="0" max="1250" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- Transaction ID Section -->
+                        <div class="transaction-section">
+                            <div class="form-group">
+                                <label for="transaction-id">#️⃣ Transaction ID</label>
+                                <div class="transaction-id-group">
+                                    <input type="text" id="transaction-id" placeholder="Auto-generated or enter manually" readonly>
+                                    <button type="button" class="generate-btn" onclick="generateTransactionId()">
+                                        Generate ID
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Summary -->
+                <div class="payment-summary" id="payment-summary" style="display: none;">
+                    <h3>📋 Payment Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <label>Payment Method</label>
+                            <div class="value" id="summary-method">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <label>Payment Date</label>
+                            <div class="value" id="summary-date">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <label>Amount</label>
+                            <div class="value" id="summary-amount">$0.00</div>
+                        </div>
+                        <div class="summary-item">
+                            <label>Transaction ID</label>
+                            <div class="value" id="summary-transaction">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Process Payment Button -->
+                <button type="button" class="process-payment" id="process-btn" onclick="processPayment()" disabled>
+                    Process Payment
+                </button>
+
+                <!-- Success Message -->
+                <div class="success-message" id="success-message">
+                    <h3>✅ Payment Successful!</h3>
+                    <p>Your payment has been processed successfully. You will receive a confirmation email shortly.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge fade-in">
+            <div class="icon">🔒</div>
+            <p>Secured with 256-bit SSL encryption</p>
+        </div>
+    </div>
+
+    <script>
+        let selectedPaymentMethod = '';
+        
+        // Payment method selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                document.querySelectorAll('.payment-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                selectedPaymentMethod = this.dataset.method;
+                
+                updateSummary();
+                validateForm();
+            });
+        });
+
+        // Form field listeners
+        document.getElementById('payment-date').addEventListener('change', updateSummary);
+        document.getElementById('amount-paid').addEventListener('input', updateSummary);
+        document.getElementById('transaction-id').addEventListener('input', updateSummary);
+
+        // Generate Transaction ID
+        function generateTransactionId() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substr(2, 6).toUpperCase();
+            const transactionId = `TXN-${timestamp}-${random}`;
+            document.getElementById('transaction-id').value = transactionId;
+            updateSummary();
+            validateForm();
+        }
+
+        // Update payment summary
+        function updateSummary() {
+            const method = selectedPaymentMethod;
+            const date = document.getElementById('payment-date').value;
+            const amount = document.getElementById('amount-paid').value;
+            const transactionId = document.getElementById('transaction-id').value;
+
+            if (method || date || amount || transactionId) {
+                document.getElementById('payment-summary').style.display = 'block';
+                
+                document.getElementById('summary-method').textContent = 
+                    method ? method.replace('-', ' ').toUpperCase() : '-';
+                document.getElementById('summary-date').textContent = date || '-';
+                document.getElementById('summary-amount').textContent = 
+                    amount ? `$${parseFloat(amount).toFixed(2)}` : '$0.00';
+                document.getElementById('summary-transaction').textContent = transactionId || '-';
+            } else {
+                document.getElementById('payment-summary').style.display = 'none';
+            }
+            
+            validateForm();
+        }
+
+        // Validate form
+        function validateForm() {
+            const method = selectedPaymentMethod;
+            const date = document.getElementById('payment-date').value;
+            const amount = document.getElementById('amount-paid').value;
+            const transactionId = document.getElementById('transaction-id').value;
+
+            const isValid = method && date && amount && transactionId && parseFloat(amount) > 0;
+            document.getElementById('process-btn').disabled = !isValid;
+        }
+
+        // Process payment
+        function processPayment() {
+            const button = document.getElementById('process-btn');
+            const originalText = button.textContent;
+            
+            // Show loading state
+            button.innerHTML = '<span class="loading"></span> Processing...';
+            button.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                // Hide form sections
+                document.querySelector('.payment-form').style.display = 'none';
+                
+                // Show success message
+                document.getElementById('success-message').classList.add('show');
+                
+                // Reset button (in case user wants to make another payment)
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }, 3000);
+        }
+
+        // Auto-generate transaction ID on page load
+        window.addEventListener('load', function() {
+            generateTransactionId();
+        });
+
+        // Set today's date as default
+        document.getElementById('payment-date').valueAsDate = new Date();
+        updateSummary();
+    </script>
+</body>
+</html>
+
