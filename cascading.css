@@ -95,3 +95,13 @@ body {
     .hidden {
       display: none;
     }
+     .fa-edit {
+    color:green;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .fa-trash {
+        color: red;
+        font-size: 20px;
+        cursor: pointer;
+    }

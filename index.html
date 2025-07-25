@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head>h
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="cascading.css"/>
+     <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
      <!-- ------------------ PAGE CONTENT ------------------ -->
@@ -30,7 +32,8 @@
           <th>Email</th>
           <th>Gender</th>
           <th>Phone</th>
-          <th>Actions</th>
+          <th>Edit</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody id="customerList">
@@ -39,105 +42,120 @@
           <td>john@gmail.com</td>
           <td>Male</td>
           <td>657023928</td>
-          <td><button>View</button></td>
+         <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
         <tr data-name="Jane Smith" data-email="jane@example.com" data-gender="Female">
           <td>Jane Smith</td>
           <td>jane@gmail.com</td>
           <td>Female</td>
           <td>692792010</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
         <tr data-name="Ernesto" data-email="ernesto@gmail.com" data-gender="Male">
           <td>Ernesto</td>
           <td>ernesto@gmail.com</td>
           <td>Male</td>
           <td>673876826</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
         <tr data-name="Godlove coder" data-email="Godlove@example.com" data-gender="Male">
           <td>Godlove coder</td>
           <td>Godlove@gmail.com</td>
           <td>Male</td>
           <td>639280921</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Mary" data-email="mary@gmail.com" data-gender="Female">
           <td>Mary</td>
           <td>mary@gmail.com</td>
           <td>Female</td>
           <td>693870292</td>
-          <td><button>View</button></td>
+         <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Chris" data-email="chris@gmail.com" data-gender="Female">
           <td>Chris</td>
           <td>chris@gmail.com</td>
           <td>Female</td>
           <td>652292827</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Paul" data-email="paul@gmail.com" data-gender="Male">
           <td>Paul</td>
           <td>paul@gmail.com</td>
           <td>Male</td>
           <td>682762920</td>
-          <td><button>View</button></td>
+         <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Raul" data-email="raul@gmail.com" data-gender="Male">
           <td>Raul</td>
           <td>raul@gmail.com</td>
           <td>Male</td>
           <td>625872919</td>
-          <td><button>View</button></td>
+        <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Ashley" data-email="ashley@gmail.com" data-gender="Female">
           <td>Ashley</td>
           <td>ashley@gmail.com</td>
           <td>Female</td>
           <td>683792073</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="pearl" data-email="pearl@gmail.com" data-gender="Female">
           <td>pearl</td>
           <td>pearl@gmail.com</td>
           <td>Female</td>
           <td>682879287</td>
-          <td><button>View</button></td>
+         <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Raissa" data-email="Raissa@gmail.com" data-gender="Female">
           <td>Raissa</td>
           <td>Raissa@gmail.com</td>
           <td>Female</td>
           <td>697982972</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="jean paul" data-email="jean56@gmail.com" data-gender="Male">
           <td>jean paul</td>
           <td>jean56@gmail.com</td>
           <td>Male</td>
           <td>674835656</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Mary Andy" data-email="Andy@gmail.com" data-gender="Female">
           <td>Mary Andy</td>
           <td>Andy@gmail.com</td>
           <td>Female</td>
           <td>673073738</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Peter George" data-email=" George67@gmail.com" data-gender="Male">
           <td>Peter George</td>
           <td>George67@gmail.com</td>
           <td>Male</td>
           <td>675676700</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
          <tr data-name="Alima Mahamadou" data-email="Alima56@gmail.com" data-gender="Female">
           <td>Alima Mahamadou</td>
           <td>Alima56@gmail.com</td>
           <td>Female</td>
           <td>698982856</td>
-          <td><button>View</button></td>
+          <td><span class="fa fa-edit"></span> <!-- edit icon --></td>
+         <td><i class="fa fa-trash"></i> <!-- delete icon --></td>
         </tr>
       </tbody>
     </table>
