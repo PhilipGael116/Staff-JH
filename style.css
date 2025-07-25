@@ -200,9 +200,9 @@
             border: 2px solid var(--accent-color);
         }
         
-        .info-box:last-child {
-            /* removed margin-right for gap usage */
-        }
+        /*.info-box:last-child {
+            /* removed margin-right for gap usage 
+        }*/
         
         .info-box h3 {
             margin-bottom: 15px;
