@@ -178,14 +178,22 @@
         // Update all item totals
         document.querySelectorAll('.item-total').forEach(td => {
             const value = parseFloat(td.textContent.replace(/[^\d.]/g, '')) || 0;
-            td.textContent = currencySymbol + value.toFixed(2);
+            if (currency === 'FCFA') {
+                td.textContent = value.toFixed(2) + ' FCFA';
+            } else {
+                td.textContent = '$' + value.toFixed(2);
+            }
         });
         // Update totals
         ['subtotal','tax-amount','discount-amount','grand-total'].forEach(id => {
             const el = document.getElementById(id);
             if (el) {
                 const value = parseFloat(el.textContent.replace(/[^\d.]/g, '')) || 0;
-                el.textContent = currencySymbol + value.toFixed(2);
+                if (currency === 'FCFA') {
+                    el.textContent = value.toFixed(2) + ' FCFA';
+                } else {
+                    el.textContent = '$' + value.toFixed(2);
+                }
             }
         });
         // Update product list prices
