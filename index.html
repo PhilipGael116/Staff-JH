@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sidebar with Font Awesome & Tailwind</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+  <aside class="w-64 h-screen flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+
+    <!-- Sidebar Header with dropdown -->
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+      <button id="teamDropdownBtn" class="flex items-center gap-2 w-full text-left focus:outline-none">
+        <img src="/tailwind-logo.svg" alt="Team Logo" class="w-8 h-8 rounded" />
+        <span class="flex-1 font-semibold truncate">Tailwind Labs</span>
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <!-- Dropdown menu -->
+      <div id="teamDropdown" class="hidden mt-2 bg-white dark:bg-gray-700 shadow rounded-md divide-y divide-gray-200 dark:divide-gray-600">
+        <a href="/teams/1/settings" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
+        <hr />
+        <a href="/teams/1" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <img src="/tailwind-logo.svg" alt="" class="w-6 h-6 rounded" />
+          <span>Tailwind Labs</span>
+        </a>
+        <a href="/teams/2" class="flex items-center gap-2 px-4 py-2 hover:bg-purple-600 hover:text-white rounded-md">
+          <div class="w-6 h-6 bg-purple-500 rounded text-white flex items-center justify-center font-semibold">WC</div>
+          <span>Workcation</span>
+        </a>
+        <hr />
+        <a href="/teams/create" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <i class="fas fa-plus"></i>
+          <span>New team…</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Sidebar Body -->
+    <nav class="flex-1 overflow-y-auto p-4 space-y-6">
+
+      <!-- Search & Inbox Section -->
+      <div>
+        <a href="/search" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-magnifying-glass"></i>
+          <span>Search</span>
+        </a>
+        <a href="/inbox" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-inbox"></i>
+          <span>Inbox</span>
+        </a>
+      </div>
+
+      <!-- Main Navigation Section -->
+      <div>
+        <a href="/home" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="/events" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-layer-group"></i>
+          <span>Events</span>
+        </a>
+        <a href="/orders" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-ticket-alt"></i>
+          <span>Orders</span>
+        </a>
+        <a href="/broadcasts" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-bullhorn"></i>
+          <span>Broadcasts</span>
+        </a>
+        <a href="/settings" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
+      </div>
+
+      <!-- Spacer -->
+      <div class="flex-grow"></div>
+
+      <!-- Support & Changelog -->
+      <div>
+        <a href="/support" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-question-circle"></i>
+          <span>Support</span>
+        </a>
+        <a href="/changelog" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i class="fas fa-sparkles"></i>
+          <span>Changelog</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Sidebar Footer with user dropdown -->
+    <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+      <button id="userDropdownBtn" class="flex items-center gap-3 w-full text-left focus:outline-none">
+        <img src="/profile-photo.jpg" alt="User avatar" class="w-10 h-10 rounded" />
+        <div class="flex flex-col truncate">
+          <span class="font-medium truncate">Erica</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400 truncate">erica@example.com</span>
+        </div>
+        <i class="fas fa-chevron-up ml-auto"></i>
+      </button>
+      <!-- User dropdown -->
+      <div id="userDropdown" class="hidden mt-2 bg-white dark:bg-gray-700 shadow rounded-md divide-y divide-gray-200 dark:divide-gray-600">
+        <a href="/my-profile" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <i class="fas fa-user"></i>
+          <span>My profile</span>
+        </a>
+        <a href="/settings" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
+        <hr />
+        <a href="/privacy-policy" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <i class="fas fa-shield-alt"></i>
+          <span>Privacy policy</span>
+        </a>
+        <a href="/share-feedback" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <i class="fas fa-lightbulb"></i>
+          <span>Share feedback</span>
+        </a>
+        <hr />
+        <a href="/logout" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+          <i class="fas fa-arrow-right-from-bracket"></i>
+          <span>Sign out</span>
+        </a>
+      </div>
+    </div>
+
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
