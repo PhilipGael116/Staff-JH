@@ -191,7 +191,11 @@
         // Update product list prices
         document.querySelectorAll('.product-price').forEach(span => {
             const value = parseFloat(span.textContent.replace(/[^\d.]/g, '')) || 0;
-            span.textContent = currencySymbol + value.toFixed(2);
+            if (currency === 'FCFA') {
+                span.textContent = value.toFixed(2) + ' FCFA';
+            } else {
+                span.textContent = '$' + value.toFixed(2);
+            }
         });
     }
     // Patch for script.js logic
