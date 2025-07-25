@@ -74,7 +74,7 @@
       <!-- Sidebar Footer with user dropdown -->
       <div class="p-4 border-t border-gray-200 dark:border-gray-700">
         <button id="userDropdownBtn" class="flex items-center gap-3 w-full text-left focus:outline-none">
-          <img src="/profile-photo.jpg" alt="User avatar" class="w-10 h-10 rounded" />
+          <img src="https://source.unsplash.com/random/40x40?sig=1" alt="User avatar" class="w-10 h-10 rounded" />
           <div class="flex flex-col truncate">
             <span class="font-medium truncate">Erica</span>
             <span class="text-xs text-gray-500 dark:text-gray-400 truncate">erica@example.com</span>
@@ -140,8 +140,8 @@
             <span class="text-xs text-green-500 flex items-center gap-1"><i class="fas fa-arrow-up"></i> 4.3% vs last month</span>
           </div>
           <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow flex flex-col gap-2">
-            <span class="text-gray-500 dark:text-gray-400 text-sm">Earnings</span>
-            <span class="text-2xl font-bold">XAF 8.2M</span>
+            <span class="text-gray-500 dark:text-gray-400 text-sm">Total Invoices</span>
+            <span class="text-2xl font-bold">4,500</span>
             <span class="text-xs text-green-500 flex items-center gap-1"><i class="fas fa-arrow-up"></i> 2.1% vs last month</span>
           </div>
           <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow flex flex-col gap-2">
@@ -161,39 +161,57 @@
           <div class="xl:col-span-2 flex flex-col gap-6">
             <!-- Upcoming Meetings -->
             <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow">
-              <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fas fa-calendar-alt text-blue-500"></i> Upcoming Meetings</h3>
+              <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fas fa-file-contract text-blue-500"></i> Recent Invoices</h3>
               <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                 <li class="py-2 flex items-center justify-between">
-                  <span>Collab with Tintin</span>
-                  <span class="text-xs text-gray-500">1:30pm - 2:30pm</span>
-                  <div class="flex -space-x-2">
+                  <span>INV001</span>
+                  <span class="flex gap-1 items-center">
                     <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
-                    <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
-                  </div>
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                  
+                  <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
                 </li>
                 <li class="py-2 flex items-center justify-between">
-                  <span>Meeting about shipping</span>
-                  <span class="text-xs text-gray-500">2:40pm - 4:30pm</span>
-                  <div class="flex -space-x-2">
+                  <span>INV002</span>
+                  <span class="flex gap-1 items-center">
                     <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
-                  </div>
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                  <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
                 </li>
                 <li class="py-2 flex items-center justify-between">
-                  <span>Greetings for marketing</span>
-                  <span class="text-xs text-gray-500">9:45am - 11:30am</span>
-                  <div class="flex -space-x-2">
+                  <span>INV003</span>
+                  <span class="flex gap-1 items-center">
                     <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
-                    <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
-                  </div>
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                  <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
                 </li>
                 <li class="py-2 flex items-center justify-between">
-                  <span>Sales pipeline review</span>
-                  <span class="text-xs text-gray-500">-</span>
-                  <div class="flex -space-x-2">
+                  <span>INV004</span>
+                  <span class="flex gap-1 items-center">
                     <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
-                  </div>
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                    <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
                 </li>
+                
               </ul>
+
+              <a href="#" class="text-blue-500 hover:text-blue-400">See All</a>
             </div>
             <!-- Revenue Chart -->
             <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow">
@@ -341,9 +359,9 @@
             </div>
             <!-- USD Balance Card -->
             <div class="bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900 dark:to-blue-900 rounded-xl p-5 shadow flex flex-col items-center justify-center min-h-[120px]">
-              <span class="text-lg font-semibold text-green-700 dark:text-green-300 mb-2">Boost your USD balance</span>
-              <span class="text-3xl font-bold text-green-800 dark:text-green-200 mb-1">by 2.5%</span>
-              <span class="text-xs text-gray-500 dark:text-gray-300">This month</span>
+              <span class="text-lg font-semibold text-green-700 dark:text-green-300 mb-2">We are making a profit</span>
+              <span class="text-3xl font-bold text-green-800 dark:text-green-200 mb-1">of 4.3%</span>
+              <span class="text-xs text-gray-500 dark:text-gray-300">Better than last Month</span>
             </div>
           </div>
         </div>
