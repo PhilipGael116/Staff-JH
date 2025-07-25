@@ -38,6 +38,13 @@
                     <h1 class="invoice-title">Create New Invoice</h1>
                     <span class="status-badge status-draft">DRAFT</span>
                 </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <label for="currency-select" style="font-weight: 500;">Currency:</label>
+                    <select id="currency-select" style="padding: 6px 10px; border-radius: 4px; border: 1px solid var(--accent-color);">
+                        <option value="USD" selected>USD ($)</option>
+                        <option value="FCFA">FCFA (FCFA)</option>
+                    </select>
+                </div>
                 <div class="invoice-actions">
                     <button class="btn btn-secondary">Save Draft</button>
                     <button class="btn btn-primary">Preview</button>
@@ -153,6 +160,9 @@
         </div>
     </main>
 <script src="script.js"></script>
+    <script>
+ 
+    </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

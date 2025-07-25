@@ -72,7 +72,7 @@
                 productItem.className = 'product-item';
                 productItem.innerHTML = `
                     <span class="product-name">${product.name}</span>
-                    <span class="product-price">$${product.price.toFixed(2)}</span>
+                    <span class="product-price">${window.formatCurrency ? window.formatCurrency(product.price) : ('$' + product.price.toFixed(2))}</span>
                 `;
                 productItem.addEventListener('click', () => {
                     addProductToInvoice(product);
@@ -105,7 +105,7 @@
                     <td><input type="text" class="item-description" placeholder="Item description"></td>
                     <td><input type="number" class="item-quantity" value="1" min="1"></td>
                     <td><input type="number" class="item-price" placeholder="0.00" step="0.01"></td>
-                    <td class="item-total">$0.00</td>
+                    <td class="item-total">${window.formatCurrency ? window.formatCurrency(0) : '$0.00'}</td>
                     <td><button class="action-btn delete-btn"><ion-icon name="trash-outline"></ion-icon></button></td>
                 `;
                 
@@ -124,7 +124,7 @@
                     <td><input type="text" class="item-description" value="${product.name}"></td>
                     <td><input type="number" class="item-quantity" value="1" min="1"></td>
                     <td><input type="number" class="item-price" value="${product.price.toFixed(2)}" step="0.01"></td>
-                    <td class="item-total">$${product.price.toFixed(2)}</td>
+                    <td class="item-total">${window.formatCurrency ? window.formatCurrency(product.price) : ('$' + product.price.toFixed(2))}</td>
                     <td><button class="action-btn delete-btn"><ion-icon name="trash-outline"></ion-icon></button></td>
                 `;
                 
@@ -136,7 +136,7 @@
                 const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
                 const price = parseFloat(row.querySelector('.item-price').value) || 0;
                 const total = quantity * price;
-                row.querySelector('.item-total').textContent = '$' + total.toFixed(2);
+                row.querySelector('.item-total').textContent = window.formatCurrency ? window.formatCurrency(total) : ('$' + total.toFixed(2));
             }
             
             function renumberItems() {
@@ -150,14 +150,62 @@
                 let subtotal = 0;
                 const itemTotals = document.querySelectorAll('.item-total');
                 itemTotals.forEach(item => {
-                    const value = item.textContent.replace('$', '');
-                    subtotal += parseFloat(value) || 0;
+                    const value = parseFloat(item.textContent.replace(/[^\d.]/g, '')) || 0;
+                    subtotal += value;
                 });
                 const taxRate = 0.16; // 16% tax
                 const taxAmount = subtotal * taxRate;
                 const grandTotal = subtotal + taxAmount;
-                document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
-                document.getElementById('tax-amount').textContent = '$' + taxAmount.toFixed(2);
-                document.getElementById('grand-total').textContent = '$' + grandTotal.toFixed(2);
+                document.getElementById('subtotal').textContent = window.formatCurrency ? window.formatCurrency(subtotal) : ('$' + subtotal.toFixed(2));
+                document.getElementById('tax-amount').textContent = window.formatCurrency ? window.formatCurrency(taxAmount) : ('$' + taxAmount.toFixed(2));
+                document.getElementById('grand-total').textContent = window.formatCurrency ? window.formatCurrency(grandTotal) : ('$' + grandTotal.toFixed(2));
             }
         });
+
+           // --- Currency logic ---
+    let currency = 'USD';
+    let currencySymbol = '$';
+    const currencySelect = document.getElementById('currency-select');
+    if (currencySelect) {
+        currencySelect.addEventListener('change', function() {
+            currency = this.value;
+            currencySymbol = currency === 'USD' ? '$' : 'FCFA';
+            updateAllCurrencyDisplays();
+        });
+    }
+
+    function updateAllCurrencyDisplays() {
+        // Update all item totals
+        document.querySelectorAll('.item-total').forEach(td => {
+            const value = parseFloat(td.textContent.replace(/[^\d.]/g, '')) || 0;
+            td.textContent = currencySymbol + value.toFixed(2);
+        });
+        // Update totals
+        ['subtotal','tax-amount','discount-amount','grand-total'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                const value = parseFloat(el.textContent.replace(/[^\d.]/g, '')) || 0;
+                el.textContent = currencySymbol + value.toFixed(2);
+            }
+        });
+        // Update product list prices
+        document.querySelectorAll('.product-price').forEach(span => {
+            const value = parseFloat(span.textContent.replace(/[^\d.]/g, '')) || 0;
+            span.textContent = currencySymbol + value.toFixed(2);
+        });
+    }
+    // Patch for script.js logic
+    window.formatCurrency = function(value) {
+        if (currency === 'FCFA') {
+            return value.toFixed(2) + ' FCFA';
+        } else {
+            return '$' + value.toFixed(2);
+        }
+    }
+    window.getCurrencySymbol = function() {
+        return currencySymbol;
+    }
+    // Listen for DOMContentLoaded to update on load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateAllCurrencyDisplays();
+    });
