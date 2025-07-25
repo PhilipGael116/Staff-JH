@@ -54,7 +54,7 @@
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 2.5rem;
         }
         .logo-image {
             width: 50px;
