@@ -116,19 +116,31 @@
             
             function addProductToInvoice(product) {
                 const tbody = document.getElementById('invoice-items');
-                const newRow = document.createElement('tr');
-                const itemCount = tbody.querySelectorAll('tr').length + 1;
-                
-                newRow.innerHTML = `
-                    <td>${itemCount}</td>
-                    <td><input type="text" class="item-description" value="${product.name}"></td>
-                    <td><input type="number" class="item-quantity" value="1" min="1"></td>
-                    <td><input type="number" class="item-price" value="${product.price.toFixed(2)}" step="0.01"></td>
-                    <td class="item-total">${window.formatCurrency ? window.formatCurrency(product.price) : ('$' + product.price.toFixed(2))}</td>
-                    <td><button class="action-btn delete-btn"><ion-icon name="trash-outline"></ion-icon></button></td>
-                `;
-                
-                tbody.appendChild(newRow);
+                // Find the first empty row (description is blank)
+                const emptyRow = Array.from(tbody.querySelectorAll('tr')).find(row => {
+                    const descInput = row.querySelector('.item-description');
+                    return descInput && descInput.value.trim() === '';
+                });
+                if (emptyRow) {
+                    // Fill the empty row
+                    emptyRow.querySelector('.item-description').value = product.name;
+                    emptyRow.querySelector('.item-quantity').value = 1;
+                    emptyRow.querySelector('.item-price').value = product.price.toFixed(2);
+                    updateItemTotal(emptyRow);
+                } else {
+                    // No empty row, add a new one
+                    const newRow = document.createElement('tr');
+                    const itemCount = tbody.querySelectorAll('tr').length + 1;
+                    newRow.innerHTML = `
+                        <td>${itemCount}</td>
+                        <td><input type="text" class="item-description" value="${product.name}"></td>
+                        <td><input type="number" class="item-quantity" value="1" min="1"></td>
+                        <td><input type="number" class="item-price" value="${product.price.toFixed(2)}" step="0.01"></td>
+                        <td class="item-total">${window.formatCurrency ? window.formatCurrency(product.price) : ('$' + product.price.toFixed(2))}</td>
+                        <td><button class="action-btn delete-btn"><ion-icon name="trash-outline"></ion-icon></button></td>
+                    `;
+                    tbody.appendChild(newRow);
+                }
                 calculateTotals();
             }
             
@@ -169,7 +181,7 @@
     if (currencySelect) {
         currencySelect.addEventListener('change', function() {
             currency = this.value;
-            currencySymbol = currency === 'USD' ? '$' : 'FCFA';
+            currencySymbol = currency === 'USD' ? '$' : 'XAF';
             updateAllCurrencyDisplays();
         });
     }
@@ -178,8 +190,8 @@
         // Update all item totals
         document.querySelectorAll('.item-total').forEach(td => {
             const value = parseFloat(td.textContent.replace(/[^\d.]/g, '')) || 0;
-            if (currency === 'FCFA') {
-                td.textContent = value.toFixed(2) + ' FCFA';
+            if (currency === 'XAF') {
+                td.textContent = value.toFixed(2) + ' XAF';
             } else {
                 td.textContent = '$' + value.toFixed(2);
             }
@@ -189,8 +201,8 @@
             const el = document.getElementById(id);
             if (el) {
                 const value = parseFloat(el.textContent.replace(/[^\d.]/g, '')) || 0;
-                if (currency === 'FCFA') {
-                    el.textContent = value.toFixed(2) + ' FCFA';
+                if (currency === 'XAF') {
+                    el.textContent = value.toFixed(2) + ' XAF';
                 } else {
                     el.textContent = '$' + value.toFixed(2);
                 }
@@ -199,8 +211,8 @@
         // Update product list prices
         document.querySelectorAll('.product-price').forEach(span => {
             const value = parseFloat(span.textContent.replace(/[^\d.]/g, '')) || 0;
-            if (currency === 'FCFA') {
-                span.textContent = value.toFixed(2) + ' FCFA';
+            if (currency === 'XAF') {
+                span.textContent = value.toFixed(2) + ' XAF';
             } else {
                 span.textContent = '$' + value.toFixed(2);
             }
@@ -208,8 +220,8 @@
     }
     // Patch for script.js logic
     window.formatCurrency = function(value) {
-        if (currency === 'FCFA') {
-            return value.toFixed(2) + ' FCFA';
+        if (currency === 'XAF') {
+            return value.toFixed(2) + ' XAF';
         } else {
             return '$' + value.toFixed(2);
         }
