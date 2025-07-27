@@ -696,7 +696,7 @@
         </div>
 
         <!-- Print Container (Hidden until printing) -->
-        <div id="print-container" class="print-container" style="display: none;">
+        <div id="print-container" class="print-container" style="display: none; background: white;">
             <!-- Invoice content will be dynamically added here for printing -->
         </div>
     </main>
@@ -753,8 +753,8 @@
                     targetRow.querySelector('.item-description').value = productName;
                     targetRow.querySelector('.item-price').value = productPrice;
                     
-                    // Add event listeners to new row
-                    addItemEventListeners(newRow);
+                    // Add event listeners to target row
+                    addItemEventListeners(targetRow);
                     calculateTotals();
                 }
             });
@@ -897,7 +897,7 @@
                 const discount = parseFloat(document.getElementById('discount').value) || 0;
                 const grandTotal = subtotal + taxAmount - discount;
                 
-                // Create invoice object
+                // Create invoice object with products
                 const invoice = {
                     id: generateInvoiceId(),
                     customer: {
@@ -909,7 +909,12 @@
                     date: invoiceDate,
                     dueDate: dueDate,
                     currency: currency,
-                    items: items,
+                    items: items.map(item => ({
+                        description: item.description,
+                        quantity: item.quantity,
+                        price: item.price,
+                        total: item.total
+                    })),
                     subtotal: subtotal,
                     tax: taxAmount,
                     discount: discount,
@@ -1055,15 +1060,143 @@
                 const invoice = invoices.find(inv => inv.id === invoiceId);
                 if (!invoice) return;
                 
-                // For demo purposes, we'll just show an alert
-                // In a real app, you might show a modal with full details
-                alert(`Viewing invoice ${invoiceId}\nCustomer: ${invoice.customer.name}\nTotal: ${getCurrencySymbol(invoice.currency)}${invoice.total.toFixed(2)}`);
+                // Create a modal-like view for the invoice details
+                const viewContainer = document.createElement('div');
+                viewContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                `;
+                
+                const viewContent = document.createElement('div');
+                viewContent.style.cssText = `
+                    background: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    width: 80%;
+                    max-width: 800px;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    position: relative;
+                `;
+                
+                // Close button
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                closeBtn.className = 'btn btn-danger';
+                closeBtn.style.cssText = `
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    padding: 5px 10px;
+                `;
+                closeBtn.onclick = () => viewContainer.remove();
+                
+                // Build the invoice content
+                viewContent.innerHTML = `
+                    <div style="margin-right: 30px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                            <div>
+                                <h1 style="color: var(--primary-color); margin-bottom: 5px;">JONGO-HUB</h1>
+                                <p>Biaka Street, Buea, Cameroon</p>
+                                <p>Email: invoices@jongohub.com</p>
+                                <p>Phone: +237 672668139</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <h2 style="color: var(--primary-color); margin-bottom: 10px;">INVOICE</h2>
+                                <p><strong>Invoice #:</strong> ${invoice.id}</p>
+                                <p><strong>Date:</strong> ${formatDate(invoice.date)}</p>
+                                <p><strong>Due Date:</strong> ${formatDate(invoice.dueDate)}</p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="border-bottom: 2px solid var(--accent-color); padding-bottom: 5px; margin-bottom: 10px;">Bill To</h3>
+                            <p><strong>${invoice.customer.name}</strong></p>
+                            ${invoice.customer.address ? `<p>${invoice.customer.address}</p>` : ''}
+                            ${invoice.customer.email ? `<p>${invoice.customer.email}</p>` : ''}
+                            ${invoice.customer.phone ? `<p>${invoice.customer.phone}</p>` : ''}
+                        </div>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+                            <thead>
+                                <tr style="background-color: var(--primary-color); color: white;">
+                                    <th style="padding: 10px; text-align: left;">Description</th>
+                                    <th style="padding: 10px; text-align: right; width: 80px;">Qty</th>
+                                    <th style="padding: 10px; text-align: right; width: 100px;">Unit Price</th>
+                                    <th style="padding: 10px; text-align: right; width: 100px;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${invoice.items.filter(item => item.description.trim() !== '').map(item => `
+                                    <tr>
+                                        <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.description}</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${item.quantity}</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${getCurrencySymbol(invoice.currency)}${item.price.toFixed(2)}</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${getCurrencySymbol(invoice.currency)}${item.total.toFixed(2)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div style="width: 300px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>Subtotal:</span>
+                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.subtotal.toFixed(2)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>Tax (16%):</span>
+                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.tax.toFixed(2)}</span>
+                                </div>
+                                ${invoice.discount > 0 ? `
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>Discount:</span>
+                                    <span>-${getCurrencySymbol(invoice.currency)}${invoice.discount.toFixed(2)}</span>
+                                </div>
+                                ` : ''}
+                                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; padding-top: 10px; border-top: 2px solid var(--primary-color);">
+                                    <span>Total:</span>
+                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.total.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${invoice.notes ? `
+                        <div style="margin-top: 30px;">
+                            <h3 style="border-bottom: 2px solid var(--accent-color); padding-bottom: 5px; margin-bottom: 10px;">Notes</h3>
+                            <p>${invoice.notes}</p>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                viewContent.appendChild(closeBtn);
+                viewContainer.appendChild(viewContent);
+                document.body.appendChild(viewContainer);
+                
+                // Click outside to close
+                viewContainer.addEventListener('click', function(e) {
+                    if (e.target === viewContainer) {
+                        viewContainer.remove();
+                    }
+                });
             }
             
             // Print invoice
             function printInvoice(invoiceId) {
                 const invoice = invoices.find(inv => inv.id === invoiceId);
                 if (!invoice) return;
+                
+                // Make print container visible
+                printContainer.style.display = 'block';
                 
                 // Prepare print content
                 printContainer.innerHTML = `
@@ -1103,7 +1236,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                ${invoice.items.map(item => `
+                                ${invoice.items.filter(item => item.description.trim() !== '').map(item => `
                                     <tr>
                                         <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.description}</td>
                                         <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${item.quantity}</td>
@@ -1153,6 +1286,11 @@
                 
                 // Trigger print
                 window.print();
+                
+                // Hide print container after printing
+                setTimeout(() => {
+                    printContainer.style.display = 'none';
+                }, 100);
             }
             
             // Delete invoice
