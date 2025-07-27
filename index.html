@@ -720,8 +720,14 @@
                 if (addButton) {
                     const productCard = addButton.closest('.product-card');
                     const productName = productCard.dataset.name;
-                    const productPrice = parseFloat(productCard.dataset.price);
+                    const currency = document.getElementById('currency').value;
+                    let productPrice;
                     
+                    if (currency === 'USD') {
+                        productPrice = parseFloat(productCard.dataset.priceUsd || 0);
+                    } else {
+                        productPrice = parseFloat(productCard.dataset.price || productCard.dataset.priceXaf || 0);
+                    }
                     // Find first empty row or create new one
                     let targetRow;
                     const existingRows = invoiceItems.querySelectorAll('tr');
@@ -770,6 +776,44 @@
             const dueDate = new Date();
             dueDate.setDate(dueDate.getDate() + 15);
             document.getElementById('due-date').value = dueDate.toISOString().split('T')[0];
+            
+            // Update product prices based on currency
+            function updateProductPrices(currency) {
+                const products = document.querySelectorAll('.product-card');
+                products.forEach(product => {
+                    // Get the original price values
+                    const xafPrice = product.dataset.price || "150000"; // Default to prevent NaN
+                    const usdPrice = product.dataset.priceUsd || "250";  // Default to prevent NaN
+                    const priceDisplay = product.querySelector('.product-price');
+                    
+                    if (currency === 'USD') {
+                        // Switch to USD
+                        product.dataset.currentPrice = usdPrice;
+                        priceDisplay.textContent = `$${parseFloat(usdPrice).toFixed(2)}`;
+                    } else {
+                        // Switch to XAF
+                        product.dataset.currentPrice = xafPrice;
+                        priceDisplay.textContent = `${parseInt(xafPrice).toLocaleString()} XAF`;
+                    }
+                });
+                
+                // Update any existing invoice items
+                const invoiceRows = document.querySelectorAll('#invoice-items tr');
+                invoiceRows.forEach(row => {
+                    const priceInput = row.querySelector('.item-price');
+                    if (priceInput) {
+                        calculateTotals();
+                    }
+                });
+            }
+
+            // Listen for currency changes
+            document.getElementById('currency').addEventListener('change', function() {
+                updateProductPrices(this.value);
+            });
+            
+            // Initialize with default currency
+            updateProductPrices(document.getElementById('currency').value);
             
             // Toggle invoice form visibility
             toggleFormBtn.addEventListener('click', function() {
