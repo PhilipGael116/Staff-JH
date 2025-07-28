@@ -681,6 +681,132 @@
             </div>
         </div>
 
+        <!-- Status Summary Section -->
+        <div class="card no-print">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-chart-pie"></i> Invoice Status Overview</h2>
+            </div>
+            <div class="status-summary" style="padding: 25px;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: var(--primary-color); color: white;">
+                            <th style="padding: 15px; text-align: left;">Status</th>
+                            <th style="padding: 15px; text-align: center;">Count</th>
+                            <th style="padding: 15px; text-align: center;">Total Value</th>
+                            <th style="padding: 15px; text-align: center;">Progress</th>
+                            <th style="padding: 15px; text-align: center;">Actions Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="status-row" style="border-bottom: 1px solid var(--border-color); transition: background-color 0.3s ease;">
+                            <td style="padding: 15px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-clock" style="color: var(--warning-color);"></i>
+                                    <span style="font-weight: 500;">Pending</span>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div class="status-count" id="pending-count" style="font-size: 1.2em; font-weight: bold; color: var(--warning-color);">0</div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div id="pending-value" style="color: var(--dark-gray);">$0.00</div>
+                            </td>
+                            <td style="padding: 15px;">
+                                <div class="progress" style="height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden;">
+                                    <div id="pending-progress" style="width: 0%; height: 100%; background: var(--warning-color); transition: width 0.3s ease;"></div>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center; color: var(--dark-gray);">Follow up needed</td>
+                        </tr>
+                        <tr class="status-row" style="border-bottom: 1px solid var(--border-color); transition: background-color 0.3s ease;">
+                            <td style="padding: 15px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                                    <span style="font-weight: 500;">Paid</span>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div class="status-count" id="paid-count" style="font-size: 1.2em; font-weight: bold; color: var(--success-color);">0</div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div id="paid-value" style="color: var(--dark-gray);">$0.00</div>
+                            </td>
+                            <td style="padding: 15px;">
+                                <div class="progress" style="height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden;">
+                                    <div id="paid-progress" style="width: 0%; height: 100%; background: var(--success-color); transition: width 0.3s ease;"></div>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center; color: var(--success-color);">✓ Complete</td>
+                        </tr>
+                        <tr class="status-row" style="border-bottom: 1px solid var(--border-color); transition: background-color 0.3s ease;">
+                            <td style="padding: 15px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-exclamation-circle" style="color: var(--danger-color);"></i>
+                                    <span style="font-weight: 500;">Overdue</span>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div class="status-count" id="overdue-count" style="font-size: 1.2em; font-weight: bold; color: var(--danger-color);">0</div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div id="overdue-value" style="color: var(--dark-gray);">$0.00</div>
+                            </td>
+                            <td style="padding: 15px;">
+                                <div class="progress" style="height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden;">
+                                    <div id="overdue-progress" style="width: 0%; height: 100%; background: var(--danger-color); transition: width 0.3s ease;"></div>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center; color: var(--danger-color);">Urgent attention needed</td>
+                        </tr>
+                        <tr class="status-row" style="transition: background-color 0.3s ease;">
+                            <td style="padding: 15px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-percentage" style="color: var(--accent-color);"></i>
+                                    <span style="font-weight: 500;">Partial</span>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div class="status-count" id="partial-count" style="font-size: 1.2em; font-weight: bold; color: var(--accent-color);">0</div>
+                            </td>
+                            <td style="padding: 15px; text-align: center;">
+                                <div id="partial-value" style="color: var(--dark-gray);">$0.00</div>
+                            </td>
+                            <td style="padding: 15px;">
+                                <div class="progress" style="height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden;">
+                                    <div id="partial-progress" style="width: 0%; height: 100%; background: var(--accent-color); transition: width 0.3s ease;"></div>
+                                </div>
+                            </td>
+                            <td style="padding: 15px; text-align: center; color: var(--accent-color);">Follow up remaining</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Summary Stats Table -->
+                <table style="width: 100%; border-collapse: collapse; background: var(--light-gray); border-radius: 8px; overflow: hidden;">
+                    <thead>
+                        <tr style="background: var(--primary-color); color: white;">
+                            <th style="padding: 15px; text-align: left;">Total Outstanding</th>
+                            <th style="padding: 15px; text-align: left;">Collection Rate</th>
+                            <th style="padding: 15px; text-align: left;">Average Payment Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 15px;">
+                                <div id="total-outstanding" style="font-size: 1.2em; font-weight: bold; color: var(--primary-color);">$0.00</div>
+                            </td>
+                            <td style="padding: 15px;">
+                                <div id="collection-rate" style="font-size: 1.2em; font-weight: bold; color: var(--success-color);">0%</div>
+                            </td>
+                            <td style="padding: 15px;">
+                                <div id="avg-payment-time" style="font-size: 1.2em; font-weight: bold; color: var(--accent-color);">0 days</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Invoice List Section -->
         <div class="card no-print">
             <div class="card-header">
@@ -1051,6 +1177,80 @@
             
             // Render invoice list
             function renderInvoiceList() {
+                // Calculate status counts and totals
+                const stats = {
+                    pending: { count: 0, value: 0 },
+                    paid: { count: 0, value: 0 },
+                    overdue: { count: 0, value: 0 },
+                    partial: { count: 0, value: 0 },
+                    totalOutstanding: 0,
+                    totalPaid: 0,
+                    totalValue: 0,
+                    paymentTimes: []
+                };
+
+                invoices.forEach(invoice => {
+                    // Update invoice status
+                    const currentStatus = StatusManager.updateInvoiceStatus(invoice);
+                    if (!stats[currentStatus]) stats[currentStatus] = { count: 0, value: 0 };
+                    stats[currentStatus].count++;
+                    
+                    // Calculate remaining amount for this invoice
+                    const remainingAmount = invoice.paymentStatus ? invoice.paymentStatus.remaining : invoice.total;
+                    stats[currentStatus].value += remainingAmount;
+
+                    // Calculate financial stats
+                    if (invoice.paymentStatus) {
+                        // Only add to total outstanding if not fully paid
+                        if (invoice.status !== 'paid') {
+                            stats.totalOutstanding += invoice.paymentStatus.remaining || 0;
+                        }
+                        stats.totalPaid += invoice.paymentStatus.totalPaid || 0;
+                        stats.totalValue += invoice.total;
+
+                        // Calculate payment time if paid
+                        if (invoice.status === 'paid' && invoice.paymentStatus.lastPaymentDate) {
+                            const createDate = new Date(invoice.createdAt);
+                            const paymentDate = new Date(invoice.paymentStatus.lastPaymentDate);
+                            const daysToPay = Math.round((paymentDate - createDate) / (1000 * 60 * 60 * 24));
+                            stats.paymentTimes.push(daysToPay);
+                        }
+                    }
+                });
+
+                // Update status counts, values, and progress bars
+                const totalInvoices = invoices.length || 1; // Prevent division by zero
+                ['pending', 'paid', 'overdue', 'partial'].forEach(status => {
+                    const statusStats = stats[status] || { count: 0, value: 0 };
+                    const percentage = (statusStats.count / totalInvoices) * 100;
+                    
+                    // Update count
+                    document.getElementById(`${status}-count`).textContent = statusStats.count;
+                    
+                    // Update value
+                    document.getElementById(`${status}-value`).textContent = 
+                        formatCurrency(statusStats.value, invoices[0]?.currency || 'USD');
+                    
+                    // Update progress bar
+                    document.getElementById(`${status}-progress`).style.width = `${percentage}%`;
+                    
+                    // Add hover effect to row
+                    const row = document.getElementById(`${status}-progress`).closest('tr');
+                    if (statusStats.count > 0) {
+                        row.addEventListener('mouseover', () => row.style.backgroundColor = '#f8f9fa');
+                        row.addEventListener('mouseout', () => row.style.backgroundColor = '');
+                    }
+                });
+
+                // Update summary stats
+                const collectionRate = stats.totalValue ? ((stats.totalPaid / stats.totalValue) * 100).toFixed(1) : 0;
+                const avgPaymentTime = stats.paymentTimes.length ? 
+                    Math.round(stats.paymentTimes.reduce((a, b) => a + b, 0) / stats.paymentTimes.length) : 0;
+
+                document.getElementById('total-outstanding').textContent = formatCurrency(stats.totalOutstanding, 'USD');
+                document.getElementById('collection-rate').textContent = `${collectionRate}%`;
+                document.getElementById('avg-payment-time').textContent = `${avgPaymentTime} days`;
+
                 if (invoices.length === 0) {
                     invoiceList.innerHTML = `
                         <div class="no-invoices" style="text-align: center; padding: 30px; color: var(--dark-gray);">
@@ -1537,18 +1737,84 @@
                         tooltip += `Payment Progress: ${progress.toFixed(1)}%`;
                     }
 
+                    const gradientStart = this.adjustColor(statusInfo.color, 20);
+                    const gradientEnd = this.adjustColor(statusInfo.color, -20);
+
                     return `
-                        <div class="status-badge" style="display: inline-flex; align-items: center; gap: 5px;" title="${tooltip}">
-                            <span class="badge" style="background-color: ${statusInfo.color}; color: white; padding: 3px 8px; border-radius: 4px;">
-                                <i class="fas ${statusInfo.icon}"></i> ${statusInfo.label}
-                            </span>
-                            ${status === 'partial' ? `
-                            <div class="progress" style="width: 50px; height: 4px; background: #eee; border-radius: 2px;">
-                                <div class="progress-bar" style="width: ${progress}%; background: ${statusInfo.color}"></div>
+                        <div class="status-badge" style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            font-family: 'Segoe UI', Arial, sans-serif;
+                            margin: 4px 0;"
+                            title="${tooltip}">
+                            <div style="
+                                background: linear-gradient(135deg, ${gradientStart}, ${gradientEnd});
+                                border-radius: 6px;
+                                padding: 6px 12px;
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                transition: all 0.3s ease;">
+                                <i class="fas ${statusInfo.icon}" style="color: white; font-size: 14px;"></i>
+                                <span style="color: white; font-weight: 500; font-size: 14px;">${statusInfo.label}</span>
                             </div>
+                            ${status === 'partial' ? `
+                            <div style="
+                                width: 80px;
+                                height: 6px;
+                                background: #f0f0f0;
+                                border-radius: 3px;
+                                overflow: hidden;
+                                box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);">
+                                <div style="
+                                    width: ${progress}%;
+                                    height: 100%;
+                                    background: linear-gradient(to right, ${gradientStart}, ${gradientEnd});
+                                    border-radius: 3px;
+                                    transition: width 0.3s ease;">
+                                </div>
+                            </div>
+                            <span style="
+                                font-size: 12px;
+                                color: #666;
+                                font-weight: 500;">
+                                ${progress.toFixed(1)}%
+                            </span>
+                            ` : ''}
+                            ${status === 'pending' || status === 'overdue' ? `
+                            <span style="
+                                font-size: 12px;
+                                color: ${status === 'overdue' ? '#dc3545' : '#666'};
+                                font-weight: 500;">
+                                ${status === 'overdue' ? `${Math.abs(dueDays)}d overdue` : `${dueDays}d left`}
+                            </span>
                             ` : ''}
                         </div>
                     `;
+                },
+
+                // Helper function to adjust color brightness
+                adjustColor: function(hex, percent) {
+                    hex = hex.replace('#', '');
+                    let r = parseInt(hex.substring(0, 2), 16);
+                    let g = parseInt(hex.substring(2, 4), 16);
+                    let b = parseInt(hex.substring(4, 6), 16);
+
+                    r = Math.round(r * (100 + percent) / 100);
+                    g = Math.round(g * (100 + percent) / 100);
+                    b = Math.round(b * (100 + percent) / 100);
+
+                    r = (r < 255) ? r : 255;
+                    g = (g < 255) ? g : 255;
+                    b = (b < 255) ? b : 255;
+
+                    const rr = ((r.toString(16).length === 1) ? '0' + r.toString(16) : r.toString(16));
+                    const gg = ((g.toString(16).length === 1) ? '0' + g.toString(16) : g.toString(16));
+                    const bb = ((b.toString(16).length === 1) ? '0' + b.toString(16) : b.toString(16));
+
+                    return '#' + rr + gg + bb;
                 },
 
                 // Check if invoice needs attention
@@ -1563,6 +1829,8 @@
 
                 // Get summary of invoice status for notifications
                 getStatusSummary: function(invoice) {
+                    if (!invoice) return null;
+                    
                     const dueDays = this.getDueDays(invoice);
                     const progress = this.getPaymentProgress(invoice);
                     
@@ -1587,6 +1855,13 @@
                             summary.message = `Overdue by ${Math.abs(dueDays)} days`;
                             summary.actionNeeded = 'Urgent payment collection needed';
                             break;
+                        case 'draft':
+                            summary.message = 'Draft invoice';
+                            summary.actionNeeded = 'Complete and send invoice';
+                            break;
+                        default:
+                            summary.message = `Status: ${invoice.status}`;
+                            summary.actionNeeded = '';
                     }
                     
                     return summary;
@@ -1634,21 +1909,48 @@
 
             // Update statuses periodically (every hour)
             setInterval(() => {
-                let needsUpdate = false;
-                invoices = invoices.map(invoice => {
-                    const newStatus = StatusManager.updateInvoiceStatus(invoice);
-                    if (newStatus !== invoice.status) {
-                        needsUpdate = true;
-                        invoice.status = newStatus;
-                        StatusManager.addStatusHistory(invoice, newStatus);
+                try {
+                    let needsUpdate = false;
+                    if (!Array.isArray(invoices)) {
+                        console.error('Invoices is not an array:', invoices);
+                        invoices = [];
+                        return;
                     }
-                    return invoice;
-                });
-                if (needsUpdate) {
+
+                    invoices = invoices.map(invoice => {
+                        if (!invoice || typeof invoice !== 'object') {
+                            console.error('Invalid invoice object:', invoice);
+                            return invoice;
+                        }
+
+                        const newStatus = StatusManager.updateInvoiceStatus(invoice);
+                        if (newStatus !== invoice.status) {
+                            needsUpdate = true;
+                            invoice.status = newStatus;
+                            StatusManager.addStatusHistory(invoice, newStatus, 'Auto-updated status');
+                        }
+                        return invoice;
+                    });
+
+                    if (needsUpdate) {
+                        localStorage.setItem('invoices', JSON.stringify(invoices));
+                        renderInvoiceList();
+                        console.log('Status updates applied:', new Date().toISOString());
+                    }
+                } catch (error) {
+                    console.error('Error updating statuses:', error);
+                }
+            }, 3600000); // Check every hour
+
+            // Initial status check
+            setTimeout(() => {
+                const updates = StatusManager.bulkStatusUpdate();
+                if (updates.changed > 0) {
+                    console.log('Initial status updates:', updates);
                     localStorage.setItem('invoices', JSON.stringify(invoices));
                     renderInvoiceList();
                 }
-            }, 3600000); // Check every hour
+            }, 1000); // Check once after page load
         });
     </script>
 </body>
