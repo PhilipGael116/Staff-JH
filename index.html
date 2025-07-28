@@ -428,6 +428,26 @@
             display: flex;
             gap: 10px;
         }
+        
+        .draft {
+            border-left: 4px solid #ffd700 !important;
+            background-color: #fff9e6 !important;
+        }
+        
+        .draft-badge {
+            background-color: #ffd700;
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .drafts-section {
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #e0e0e0;
+            padding-bottom: 20px;
+        }
 
         .print-only {
             display: none;
@@ -578,7 +598,7 @@
                     <label class="form-label">Available Products</label>
                     <div class="products-grid" id="products-grid">
                         <!-- Sample products - These will be dynamically populated in a real application -->
-                        <div class="product-card" data-name="Website Development" data-price="150000">
+                        <div class="product-card" data-name="Website Development" data-price="150000" data-price-usd="250">
                             <div class="product-name">Website Development</div>
                             <div class="product-price">150,000 XAF</div>
                             <div class="product-action">
@@ -587,7 +607,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="product-card" data-name="Logo Design" data-price="50000">
+                        <div class="product-card" data-name="Logo Design" data-price="50000" data-price-usd="85">
                             <div class="product-name">Logo Design</div>
                             <div class="product-price">50,000 XAF</div>
                             <div class="product-action">
@@ -596,7 +616,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="product-card" data-name="Social Media Management" data-price="75000">
+                        <div class="product-card" data-name="Social Media Management" data-price="75000" data-price-usd="125">
                             <div class="product-name">Social Media Management</div>
                             <div class="product-price">75,000 XAF</div>
                             <div class="product-action">
@@ -605,7 +625,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="product-card" data-name="SEO Optimization" data-price="100000">
+                        <div class="product-card" data-name="SEO Optimization" data-price="100000" data-price-usd="170">
                             <div class="product-name">SEO Optimization</div>
                             <div class="product-price">100,000 XAF</div>
                             <div class="product-action">
@@ -1125,10 +1145,190 @@
             
             // Save as draft
             saveDraftBtn.addEventListener('click', function() {
-                // Similar to createInvoiceBtn but with status 'draft'
-                console.log('Save as draft clicked');
-                alert('Draft saved (functionality to be implemented)');
+                const customerName = document.getElementById('customer-name').value.trim();
+                const customerEmail = document.getElementById('customer-email').value.trim();
+                const customerPhone = document.getElementById('customer-phone').value.trim();
+                const customerAddress = document.getElementById('customer-address').value.trim();
+                const invoiceDate = document.getElementById('invoice-date').value;
+                const dueDate = document.getElementById('due-date').value;
+                const currency = document.getElementById('currency').value;
+                const notes = document.getElementById('invoice-notes').value.trim();
+                
+                // Collect invoice items
+                const items = [];
+                const rows = invoiceItems.querySelectorAll('tr');
+                
+                rows.forEach(row => {
+                    const description = row.querySelector('.item-description').value.trim();
+                    const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+                    const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                    
+                    // Include even empty items in draft
+                    items.push({
+                        description,
+                        quantity,
+                        price,
+                        total: quantity * price
+                    });
+                });
+                
+                // Calculate totals
+                const subtotal = items.reduce((sum, item) => sum + item.total, 0);
+                const taxRate = 0.16;
+                const taxAmount = subtotal * taxRate;
+                const discount = parseFloat(document.getElementById('discount').value) || 0;
+                const grandTotal = subtotal + taxAmount - discount;
+                
+                // Create draft invoice object
+                const draft = {
+                    id: generateInvoiceId(),
+                    customer: {
+                        name: customerName,
+                        email: customerEmail,
+                        phone: customerPhone,
+                        address: customerAddress
+                    },
+                    date: invoiceDate,
+                    dueDate: dueDate,
+                    currency: currency,
+                    items: items,
+                    subtotal: subtotal,
+                    tax: taxAmount,
+                    discount: discount,
+                    total: grandTotal,
+                    notes: notes,
+                    status: 'draft',
+                    createdAt: new Date().toISOString(),
+                    lastModified: new Date().toISOString()
+                };
+                
+                // Get existing drafts from localStorage
+                let drafts = JSON.parse(localStorage.getItem('invoice_drafts') || '[]');
+                drafts.unshift(draft);
+                localStorage.setItem('invoice_drafts', JSON.stringify(drafts));
+                
+                // Show success message
+                alert('Draft saved successfully!');
+                
+                // Update UI to show drafts
+                renderDraftList();
             });
+            
+            // Function to render draft list in the invoice list section
+            function renderDraftList() {
+                const drafts = JSON.parse(localStorage.getItem('invoice_drafts') || '[]');
+                const draftsSection = document.createElement('div');
+                draftsSection.className = 'drafts-section';
+                
+                if (drafts.length > 0) {
+                    drafts.forEach(draft => {
+                        const draftElement = document.createElement('div');
+                        draftElement.className = 'invoice-item draft';
+                        draftElement.innerHTML = `
+                            <div class="invoice-header">
+                                <span class="invoice-id">${draft.id}</span>
+                                <span class="badge draft-badge">Draft</span>
+                            </div>
+                            <div class="invoice-body">
+                                <div class="customer-info">
+                                    <span class="customer-name">${draft.customer.name || 'No Customer Name'}</span>
+                                    <span class="customer-email">${draft.customer.email || 'No Email'}</span>
+                                </div>
+                                <div class="invoice-amount">
+                                    ${draft.currency} ${draft.total.toFixed(2)}
+                                </div>
+                                <div class="invoice-date">
+                                    Last Modified: ${new Date(draft.lastModified).toLocaleDateString()}
+                                </div>
+                            </div>
+                            <div class="invoice-actions">
+                                <button class="btn btn-primary btn-sm edit-draft" data-id="${draft.id}">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm delete-draft" data-id="${draft.id}">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        `;
+                        draftsSection.appendChild(draftElement);
+                    });
+                }
+                
+                // Insert drafts section at the beginning of invoice list
+                const existingDraftsSection = document.querySelector('.drafts-section');
+                if (existingDraftsSection) {
+                    existingDraftsSection.remove();
+                }
+                invoiceList.insertBefore(draftsSection, invoiceList.firstChild);
+                
+                // Add event listeners for draft actions
+                document.querySelectorAll('.edit-draft').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const draftId = this.dataset.id;
+                        const drafts = JSON.parse(localStorage.getItem('invoice_drafts') || '[]');
+                        const draft = drafts.find(d => d.id === draftId);
+                        
+                        if (draft) {
+                            // Fill form with draft data
+                            document.getElementById('customer-name').value = draft.customer.name || '';
+                            document.getElementById('customer-email').value = draft.customer.email || '';
+                            document.getElementById('customer-phone').value = draft.customer.phone || '';
+                            document.getElementById('customer-address').value = draft.customer.address || '';
+                            document.getElementById('invoice-date').value = draft.date;
+                            document.getElementById('due-date').value = draft.dueDate;
+                            document.getElementById('currency').value = draft.currency;
+                            document.getElementById('invoice-notes').value = draft.notes || '';
+                            document.getElementById('discount').value = draft.discount || '0.00';
+                            
+                            // Clear existing items
+                            invoiceItems.innerHTML = '';
+                            
+                            // Add draft items
+                            draft.items.forEach(item => {
+                                const newRow = document.createElement('tr');
+                                newRow.innerHTML = `
+                                    <td><input type="text" class="form-control item-description" value="${item.description || ''}"></td>
+                                    <td><input type="number" class="form-control item-quantity" value="${item.quantity}" min="1"></td>
+                                    <td><input type="number" class="form-control item-price" value="${item.price}" step="0.01"></td>
+                                    <td class="item-total">${item.total.toFixed(2)}</td>
+                                    <td><button class="action-btn delete-btn"><i class="fas fa-trash"></i></button></td>
+                                `;
+                                invoiceItems.appendChild(newRow);
+                                addItemEventListeners(newRow);
+                            });
+                            
+                            // Show the form
+                            invoiceFormContainer.style.display = 'block';
+                            toggleFormBtn.innerHTML = '<i class="fas fa-minus"></i> Hide Form';
+                            
+                            // Calculate totals
+                            calculateTotals();
+                            
+                            // Remove the draft from storage
+                            const updatedDrafts = drafts.filter(d => d.id !== draftId);
+                            localStorage.setItem('invoice_drafts', JSON.stringify(updatedDrafts));
+                            
+                            // Update UI
+                            renderDraftList();
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.delete-draft').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (confirm('Are you sure you want to delete this draft?')) {
+                            const draftId = this.dataset.id;
+                            const drafts = JSON.parse(localStorage.getItem('invoice_drafts') || '[]');
+                            const updatedDrafts = drafts.filter(d => d.id !== draftId);
+                            localStorage.setItem('invoice_drafts', JSON.stringify(updatedDrafts));
+                            renderDraftList();
+                        }
+                    });
+                });
+            }
+            
+            // Call renderDraftList on page load
+            renderDraftList();
             
             // Cancel invoice
             cancelInvoiceBtn.addEventListener('click', resetInvoiceForm);
