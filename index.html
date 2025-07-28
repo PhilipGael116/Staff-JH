@@ -964,8 +964,20 @@
                     discount: discount,
                     total: grandTotal,
                     notes: notes,
-                    status: 'paid',
-                    createdAt: new Date().toISOString()
+                    status: 'pending',
+                    statusHistory: [{
+                        status: 'pending',
+                        date: new Date().toISOString(),
+                        note: 'Invoice created'
+                    }],
+                    payments: [],
+                    paymentStatus: {
+                        totalPaid: 0,
+                        remaining: grandTotal,
+                        lastPaymentDate: null
+                    },
+                    createdAt: new Date().toISOString(),
+                    template: 'default'
                 };
                 
                 // Log to console (as requested)
@@ -1056,11 +1068,18 @@
                     invoiceElement.className = 'invoice-item';
                     invoiceElement.innerHTML = `
                         <div class="invoice-info">
-                            <div class="invoice-number">${invoice.id}</div>
+                            <div class="invoice-number">
+                                ${invoice.id} ${StatusManager.getStatusBadge(invoice.status)}
+                            </div>
                             <div class="invoice-client">${invoice.customer.name}</div>
                             <div class="invoice-date">Date: ${formatDate(invoice.date)} | Due: ${formatDate(invoice.dueDate)}</div>
+                            ${invoice.paymentStatus ? `
+                            <div class="payment-info" style="font-size: 0.9em; color: #666;">
+                                Paid: ${formatCurrency(invoice.paymentStatus.totalPaid, invoice.currency)} | 
+                                Remaining: ${formatCurrency(invoice.paymentStatus.remaining, invoice.currency)}
+                            </div>` : ''}
                         </div>
-                        <div class="invoice-amount">${getCurrencySymbol(invoice.currency)}${invoice.total.toFixed(2)}</div>
+                        <div class="invoice-amount">${formatCurrency(invoice.total, invoice.currency)}</div>
                         <div class="invoice-actions">
                             <button class="btn btn-secondary btn-sm view-invoice" data-id="${invoice.id}">
                                 <i class="fas fa-eye"></i> View
@@ -1095,6 +1114,13 @@
                     btn.addEventListener('click', function() {
                         const invoiceId = this.getAttribute('data-id');
                         deleteInvoice(invoiceId);
+                    });
+                });
+
+                document.querySelectorAll('.record-payment').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const invoiceId = this.getAttribute('data-id');
+                        recordPayment(invoiceId);
                     });
                 });
             }
@@ -1155,7 +1181,7 @@
                             </div>
                             <div style="text-align: right;">
                                 <h2 style="color: var(--primary-color); margin-bottom: 10px;">INVOICE</h2>
-                                <p><strong>Invoice #:</strong> ${invoice.id}</p>
+                                <p><strong>Invoice ID:</strong> ${invoice.id}</p>
                                 <p><strong>Date:</strong> ${formatDate(invoice.date)}</p>
                                 <p><strong>Due Date:</strong> ${formatDate(invoice.dueDate)}</p>
                             </div>
@@ -1194,21 +1220,21 @@
                             <div style="width: 300px;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span>Subtotal:</span>
-                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.subtotal.toFixed(2)}</span>
+                                    <span>${formatCurrency(invoice.subtotal, invoice.currency)}</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span>Tax (16%):</span>
-                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.tax.toFixed(2)}</span>
+                                    <span>${formatCurrency(invoice.tax, invoice.currency)}</span>
                                 </div>
                                 ${invoice.discount > 0 ? `
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span>Discount:</span>
-                                    <span>-${getCurrencySymbol(invoice.currency)}${invoice.discount.toFixed(2)}</span>
+                                    <span>-${formatCurrency(invoice.discount, invoice.currency)}</span>
                                 </div>
                                 ` : ''}
                                 <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; padding-top: 10px; border-top: 2px solid var(--primary-color);">
                                     <span>Total:</span>
-                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.total.toFixed(2)}</span>
+                                    <span>${formatCurrency(invoice.total, invoice.currency)}</span>
                                 </div>
                             </div>
                         </div>
@@ -1254,7 +1280,7 @@
                             </div>
                             <div style="text-align: right;">
                                 <h2 style="color: var(--primary-color); margin-bottom: 10px;">INVOICE</h2>
-                                <p><strong>Invoice #:</strong> ${invoice.id}</p>
+                                <p><strong>Invoice ID:</strong> ${invoice.id}</p>
                                 <p><strong>Date:</strong> ${formatDate(invoice.date)}</p>
                                 <p><strong>Due Date:</strong> ${formatDate(invoice.dueDate)}</p>
                             </div>
@@ -1295,21 +1321,21 @@
                             <div style="width: 300px;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span>Subtotal:</span>
-                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.subtotal.toFixed(2)}</span>
+                                    <span>${formatCurrency(invoice.subtotal, invoice.currency)}</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span>Tax (16%):</span>
-                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.tax.toFixed(2)}</span>
+                                    <span>${formatCurrency(invoice.tax, invoice.currency)}</span>
                                 </div>
                                 ${invoice.discount > 0 ? `
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span>Discount:</span>
-                                    <span>-${getCurrencySymbol(invoice.currency)}${invoice.discount.toFixed(2)}</span>
+                                    <span>-${formatCurrency(invoice.discount, invoice.currency)}</span>
                                 </div>
                                 ` : ''}
                                 <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; padding-top: 10px; border-top: 2px solid var(--primary-color); margin-bottom: 30px;">
                                     <span>Total:</span>
-                                    <span>${getCurrencySymbol(invoice.currency)}${invoice.total.toFixed(2)}</span>
+                                    <span>${formatCurrency(invoice.total, invoice.currency)}</span>
                                 </div>
                             </div>
                         </div>
@@ -1337,6 +1363,74 @@
                 }, 100);
             }
             
+            // Record payment
+            function recordPayment(invoiceId) {
+                const invoice = invoices.find(inv => inv.id === invoiceId);
+                if (!invoice) return;
+
+                // Create payment modal
+                const modalContainer = document.createElement('div');
+                modalContainer.className = 'payment-modal';
+                
+                modalContainer.innerHTML = `
+                    <div class="payment-modal-content">
+                        <h3>Record Payment</h3>
+                        <div class="payment-form">
+                            <div class="form-group">
+                                <label>Amount Due:</label>
+                                <div>${formatCurrency(invoice.paymentStatus.remaining || invoice.total, invoice.currency)}</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Amount:</label>
+                                <input type="number" id="payment-amount" class="form-control" 
+                                    value="${invoice.paymentStatus.remaining || invoice.total}" 
+                                    max="${invoice.paymentStatus.remaining || invoice.total}"
+                                    step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Method:</label>
+                                <select id="payment-method" class="form-control">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Mobile Money">Mobile Money</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Date:</label>
+                                <input type="date" id="payment-date" class="form-control" 
+                                    value="${new Date().toISOString().split('T')[0]}">
+                            </div>
+                            <div class="form-group">
+                                <label>Notes:</label>
+                                <textarea id="payment-notes" class="form-control" rows="2"></textarea>
+                            </div>
+                            <div class="payment-actions">
+                                <button class="btn btn-secondary" onclick="this.closest('.payment-modal').remove()">Cancel</button>
+                                <button class="btn btn-success" id="save-payment">Save Payment</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                invoice.payments.push(payment);
+                invoice.paymentStatus.totalPaid += paymentAmount;
+                invoice.paymentStatus.remaining = Math.max(0, invoice.total - invoice.paymentStatus.totalPaid);
+                invoice.paymentStatus.lastPaymentDate = payment.date;
+
+                if (invoice.paymentStatus.remaining === 0) {
+                    invoice.status = 'paid';
+                    invoice.statusHistory.push({
+                        status: 'paid',
+                        date: new Date().toISOString(),
+                        note: 'Full payment received'
+                    });
+                }
+
+                localStorage.setItem('invoices', JSON.stringify(invoices));
+                renderInvoiceList();
+            }
+
             // Delete invoice
             function deleteInvoice(invoiceId) {
                 if (confirm('Are you sure you want to delete this invoice?')) {
@@ -1355,13 +1449,206 @@
                 return `${day}/${month}/${year}`;
             }
             
-            // Helper function to get currency symbol
+            // Helper function to format currency
+            function formatCurrency(amount, currency) {
+                if (currency === 'USD') {
+                    return `$${parseFloat(amount).toFixed(2)}`;
+                } else {
+                    return `FCFA ${parseFloat(amount).toFixed(2)}`;
+                }
+            }
+
+            // Helper function to get currency symbol (for backwards compatibility)
             function getCurrencySymbol(currency) {
                 return currency === 'USD' ? '$' : 'FCFA ';
             }
             
-            // Initialize the page
+            // Status Manager Object
+            const StatusManager = {
+                statuses: {
+                    pending: { label: 'Pending', color: '#ffa500', icon: 'fa-clock' },
+                    paid: { label: 'Paid', color: '#28a745', icon: 'fa-check-circle' },
+                    partial: { label: 'Partial', color: '#17a2b8', icon: 'fa-percentage' },
+                    overdue: { label: 'Overdue', color: '#dc3545', icon: 'fa-exclamation-circle' },
+                    draft: { label: 'Draft', color: '#6c757d', icon: 'fa-file' },
+                    cancelled: { label: 'Cancelled', color: '#6c757d', icon: 'fa-ban' },
+                    void: { label: 'Void', color: '#343a40', icon: 'fa-times-circle' },
+                    refunded: { label: 'Refunded', color: '#fd7e14', icon: 'fa-undo' }
+                },
+                
+                // Calculate days until due or overdue
+                getDueDays: function(invoice) {
+                    const today = new Date();
+                    const dueDate = new Date(invoice.dueDate);
+                    const diffTime = dueDate - today;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    return diffDays;
+                },
+                
+                // Get payment progress percentage
+                getPaymentProgress: function(invoice) {
+                    if (!invoice.paymentStatus) return 0;
+                    return ((invoice.total - invoice.paymentStatus.remaining) / invoice.total) * 100;
+                },
+
+                updateInvoiceStatus: function(invoice) {
+                    const today = new Date();
+                    const dueDate = new Date(invoice.dueDate);
+                    
+                    if (invoice.status === 'draft') return 'draft';
+                    if (invoice.status === 'cancelled') return 'cancelled';
+                    if (invoice.paymentStatus?.remaining === 0) return 'paid';
+                    if (invoice.paymentStatus?.totalPaid > 0) return 'partial';
+                    if (today > dueDate) return 'overdue';
+                    return 'pending';
+                },
+
+                getStatusBadge: function(status) {
+                    const statusInfo = this.statuses[status] || this.statuses.pending;
+                    return `<span class="badge" style="background-color: ${statusInfo.color}; color: white; padding: 3px 8px; border-radius: 4px;">
+                        ${statusInfo.label}
+                    </span>`;
+                },
+
+                addStatusHistory: function(invoice, newStatus, note = '') {
+                    if (!invoice.statusHistory) invoice.statusHistory = [];
+                    invoice.statusHistory.push({
+                        status: newStatus,
+                        date: new Date().toISOString(),
+                        note: note || `Status changed to ${this.statuses[newStatus].label}`
+                    });
+                },
+
+                // Get enhanced status badge with icon and tooltip
+                getEnhancedStatusBadge: function(invoice) {
+                    const status = invoice.status;
+                    const statusInfo = this.statuses[status] || this.statuses.pending;
+                    const dueDays = this.getDueDays(invoice);
+                    const progress = this.getPaymentProgress(invoice);
+                    
+                    let tooltip = `Status: ${statusInfo.label}\\n`;
+                    if (status === 'pending' || status === 'partial') {
+                        tooltip += `Due in: ${Math.abs(dueDays)} days\\n`;
+                    }
+                    if (status === 'overdue') {
+                        tooltip += `Overdue by: ${Math.abs(dueDays)} days\\n`;
+                    }
+                    if (status === 'partial') {
+                        tooltip += `Payment Progress: ${progress.toFixed(1)}%`;
+                    }
+
+                    return `
+                        <div class="status-badge" style="display: inline-flex; align-items: center; gap: 5px;" title="${tooltip}">
+                            <span class="badge" style="background-color: ${statusInfo.color}; color: white; padding: 3px 8px; border-radius: 4px;">
+                                <i class="fas ${statusInfo.icon}"></i> ${statusInfo.label}
+                            </span>
+                            ${status === 'partial' ? `
+                            <div class="progress" style="width: 50px; height: 4px; background: #eee; border-radius: 2px;">
+                                <div class="progress-bar" style="width: ${progress}%; background: ${statusInfo.color}"></div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+                },
+
+                // Check if invoice needs attention
+                needsAttention: function(invoice) {
+                    const dueDays = this.getDueDays(invoice);
+                    return (
+                        invoice.status === 'pending' && dueDays <= 3 || // Due soon
+                        invoice.status === 'overdue' || // Overdue
+                        (invoice.status === 'partial' && dueDays <= 0) // Partial payment and due/overdue
+                    );
+                },
+
+                // Get summary of invoice status for notifications
+                getStatusSummary: function(invoice) {
+                    const dueDays = this.getDueDays(invoice);
+                    const progress = this.getPaymentProgress(invoice);
+                    
+                    let summary = {
+                        needsAttention: this.needsAttention(invoice),
+                        message: '',
+                        actionNeeded: ''
+                    };
+
+                    switch (invoice.status) {
+                        case 'pending':
+                            summary.message = dueDays > 0 
+                                ? `Due in ${dueDays} days` 
+                                : `Overdue by ${Math.abs(dueDays)} days`;
+                            summary.actionNeeded = 'Payment collection needed';
+                            break;
+                        case 'partial':
+                            summary.message = `${progress.toFixed(1)}% paid`;
+                            summary.actionNeeded = 'Follow up on remaining payment';
+                            break;
+                        case 'overdue':
+                            summary.message = `Overdue by ${Math.abs(dueDays)} days`;
+                            summary.actionNeeded = 'Urgent payment collection needed';
+                            break;
+                    }
+                    
+                    return summary;
+                },
+
+                // Bulk status update for all invoices
+                bulkStatusUpdate: function() {
+                    let updates = {
+                        changed: 0,
+                        overdue: 0,
+                        needsAttention: 0,
+                        summary: []
+                    };
+
+                    invoices = invoices.map(invoice => {
+                        const oldStatus = invoice.status;
+                        const newStatus = this.updateInvoiceStatus(invoice);
+                        
+                        if (newStatus !== oldStatus) {
+                            invoice.status = newStatus;
+                            this.addStatusHistory(invoice, newStatus);
+                            updates.changed++;
+                            
+                            updates.summary.push({
+                                invoiceId: invoice.id,
+                                customer: invoice.customer.name,
+                                oldStatus,
+                                newStatus,
+                                needsAttention: this.needsAttention(invoice)
+                            });
+                        }
+
+                        if (newStatus === 'overdue') updates.overdue++;
+                        if (this.needsAttention(invoice)) updates.needsAttention++;
+                        
+                        return invoice;
+                    });
+
+                    return updates;
+                }
+            };
+
+            // Initialize the page with status management
             renderInvoiceList();
+
+            // Update statuses periodically (every hour)
+            setInterval(() => {
+                let needsUpdate = false;
+                invoices = invoices.map(invoice => {
+                    const newStatus = StatusManager.updateInvoiceStatus(invoice);
+                    if (newStatus !== invoice.status) {
+                        needsUpdate = true;
+                        invoice.status = newStatus;
+                        StatusManager.addStatusHistory(invoice, newStatus);
+                    }
+                    return invoice;
+                });
+                if (needsUpdate) {
+                    localStorage.setItem('invoices', JSON.stringify(invoices));
+                    renderInvoiceList();
+                }
+            }, 3600000); // Check every hour
         });
     </script>
 </body>

@@ -1,0 +1,187 @@
+/* Invoice Status Styles */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge.bg-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.badge.bg-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+/* Invoice Item Styles */
+.invoice-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.invoice-info {
+    flex: 1;
+}
+
+.invoice-number {
+    font-weight: bold;
+    color: #333;
+}
+
+.invoice-client {
+    font-size: 1.1em;
+    margin: 5px 0;
+}
+
+.invoice-date {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.invoice-amount {
+    text-align: right;
+    margin: 10px 0;
+}
+
+.total {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.payment-info {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.payment-info .paid {
+    color: #28a745;
+}
+
+.payment-info .remaining {
+    color: #dc3545;
+}
+
+/* Payment Modal Styles */
+.payment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.payment-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.payment-form {
+    margin-top: 20px;
+}
+
+.payment-form .form-group {
+    margin-bottom: 15px;
+}
+
+.payment-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.payment-form input,
+.payment-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.payment-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Invoice Actions */
+.invoice-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.invoice-actions button {
+    min-width: 40px;
+}
+
+/* Status History */
+.status-history {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.status-history h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.status-history-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.status-history-item:last-child {
+    border-bottom: none;
+}
+
+.status-history-date {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.status-history-note {
+    margin-top: 3px;
+    color: #333;
+}
