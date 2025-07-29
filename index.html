@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sidebar with Font Awesome & Tailwind</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 md:none">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 fixed h-screen flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 hidden lg:flex">
+      <!-- Sidebar Header -->
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700 py-6">
+          <div>
+            <span class="flex-1 font-semibold truncate">JongoHub-Staff Dashboard</span>
+          </div>
+      </div>
+      <!-- Sidebar Body -->
+      <nav class="flex-1 overflow-y-auto p-4 space-y-6">
+        <!-- Search & Inbox Section -->
+        <div>
+          <a href="/search" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-magnifying-glass"></i>
+            <span>Search</span>
+          </a>
+          <a href="/inbox" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-inbox"></i>
+            <span>Inbox</span>
+          </a>
+        </div>
+        <!-- Main Navigation Section -->
+        <div>
+          <a href="/home" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-house"></i>
+            <span>Home</span>
+          </a>
+          <a href="/events" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-layer-group"></i>
+            <span>Events</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-ticket-alt"></i>
+            <span>Orders</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-bullhorn"></i>
+            <span>Products</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </div>
+        <!-- Spacer -->
+        <div class="flex-grow"></div>
+        <!-- Support & Changelog -->
+        <div>
+          <a href="/support" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-question-circle"></i>
+            <span>Support</span>
+          </a>
+          <a href="/changelog" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i class="fas fa-sparkles"></i>
+            <span>Changelog</span>
+          </a>
+        </div>
+      </nav>
+      <!-- Sidebar Footer with user dropdown -->
+      <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+        <button id="userDropdownBtn" class="flex items-center gap-3 w-full text-left focus:outline-none">
+          <img src="https://source.unsplash.com/random/40x40?sig=1" alt="User avatar" class="w-10 h-10 rounded" />
+          <div class="flex flex-col truncate">
+            <span class="font-medium truncate">Erica</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400 truncate">erica@example.com</span>
+          </div>
+          <i class="fas fa-chevron-up ml-auto"></i>
+        </button>
+        <!-- User dropdown -->
+        <div id="userDropdown" class="hidden mt-2 bg-white dark:bg-gray-700 shadow rounded-md divide-y divide-gray-200 dark:divide-gray-600">
+          <a href="/my-profile" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+            <i class="fas fa-user"></i>
+            <span>My profile</span>
+          </a>
+          <a href="/settings" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+          <hr />
+          <a href="/privacy-policy" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+            <i class="fas fa-shield-alt"></i>
+            <span>Privacy policy</span>
+          </a>
+          <a href="/share-feedback" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+            <i class="fas fa-lightbulb"></i>
+            <span>Share feedback</span>
+          </a>
+          <hr />
+          <a href="/logout" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+            <i class="fas fa-arrow-right-from-bracket"></i>
+            <span>Sign out</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+    <!-- Main Dashboard Content -->
+    <div class="flex-1 flex flex-col min-h-screen lg:ml-64">
+      <!-- Top Header -->
+      <header class="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 sm:gap-6">
+        <div class="flex items-center gap-4 sm:gap-6">
+          <button class="lg:hidden text-gray-500 dark:text-gray-300 focus:outline-none">
+            <i class="fas fa-bars fa-lg"></i>
+          </button>
+          <span class="hidden md:block font-semibold text-lg">Good morning, Staff</span>
+        </div>
+        <div class="flex-1 flex justify-center sm:gap-6">
+          <div class="relative w-full max-w-xs">
+            <input type="text" placeholder="Search" class="w-full pl-10 pr-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <span class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500"><i class="fas fa-search"></i></span>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 sm:gap-6">
+          <button class="text-gray-500 dark:text-gray-300"><i class="fas fa-globe"></i></button>
+          <button class="text-gray-500 dark:text-gray-300"><i class="fas fa-bell"></i></button>
+          <img src="/profile-photo.jpg" alt="User avatar" class="w-9 h-9 rounded-full border-2 border-blue-500" />
+        </div>
+      </header>
+      <!-- Main Dashboard Body -->
+      <main class="flex-1 bg-gray-50 dark:bg-gray-900 p-6">
+        <!-- Metrics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6">
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow flex flex-col gap-2">
+            <span class="text-gray-500 dark:text-gray-400 text-sm">Total Products</span>
+            <span class="text-2xl font-bold">2,110</span>
+            <span class="text-xs text-green-500 flex items-center gap-1"><i class="fas fa-arrow-up"></i> 4.3% vs last month</span>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow flex flex-col gap-2">
+            <span class="text-gray-500 dark:text-gray-400 text-sm">Total Invoices</span>
+            <span class="text-2xl font-bold">4,500</span>
+            <span class="text-xs text-green-500 flex items-center gap-1"><i class="fas fa-arrow-up"></i> 2.1% vs last month</span>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow flex flex-col gap-2">
+            <span class="text-gray-500 dark:text-gray-400 text-sm">Total Customers</span>
+            <span class="text-2xl font-bold">1,124</span>
+            <span class="text-xs text-red-500 flex items-center gap-1"><i class="fas fa-arrow-down"></i> 1.3% vs last month</span>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow flex flex-col gap-2">
+            <span class="text-gray-500 dark:text-gray-400 text-sm">Monthly Net Profit</span>
+            <span class="text-2xl font-bold">XAF 25,049</span>
+            <span class="text-xs text-green-500 flex items-center gap-1"><i class="fas fa-arrow-up"></i> 4.3% vs last month</span>
+          </div>
+        </div>
+        <!-- Main Grid: Left (Meetings, Revenue Chart, Top Products), Right (Market Share) -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <!-- Left: Meetings, Revenue Chart, Top Products -->
+          <div class="xl:col-span-2 flex flex-col gap-6">
+            <!-- Upcoming Meetings -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow">
+              <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fas fa-file-contract text-blue-500"></i> Recent Invoices</h3>
+              <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                <li class="py-2 flex items-center justify-between">
+                  <span>INV001</span>
+                  <span class="flex gap-1 items-center">
+                    <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                  
+                  <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
+                </li>
+                <li class="py-2 flex items-center justify-between">
+                  <span>INV002</span>
+                  <span class="flex gap-1 items-center">
+                    <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                  <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
+                </li>
+                <li class="py-2 flex items-center justify-between">
+                  <span>INV003</span>
+                  <span class="flex gap-1 items-center">
+                    <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                  <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
+                </li>
+                <li class="py-2 flex items-center justify-between">
+                  <span>INV004</span>
+                  <span class="flex gap-1 items-center">
+                    <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                    Munyoh Joel
+                  </span>
+                  <span>
+                    4 products
+                  </span>
+                    <span class="text-sm text-green-500"><span class="text-sm">XAF 4000</span> PAID</span>
+                </li>
+                
+              </ul>
+
+              <a href="#" class="text-blue-500 hover:text-blue-400">See All</a>
+            </div>
+            <!-- Revenue Chart -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold text-lg flex items-center gap-2"><i class="fas fa-chart-line text-green-500"></i> Revenue Generated</h3>
+                <span class="text-xs text-green-500 bg-green-100 dark:bg-green-900 px-2 py-1 rounded">+6.19%</span>
+              </div>
+              <div class="w-full h-40 flex items-center justify-center">
+                <!-- Static SVG Chart Placeholder -->
+                <svg viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                  <polyline points="0,60 40,50 80,55 120,30 160,40 200,20 240,35 280,25 300,40" fill="none" stroke="#3b82f6" stroke-width="3" />
+                  <polyline points="0,70 40,60 80,65 120,50 160,60 200,40 240,55 280,45 300,60" fill="none" stroke="#a1a1aa" stroke-width="2" />
+                </svg>
+              </div>
+              <div class="flex justify-between text-xs text-gray-400 mt-2">
+                <span>Jul 11</span><span>Jul 13</span><span>Jul 15</span><span>Jul 17</span><span>Jul 19</span><span>Jul 21</span><span>Jul 23</span><span>Jul 25</span>
+              </div>
+            </div>
+            <!-- Top Products Table -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow overflow-x-auto">
+              <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fas fa-boxes text-yellow-500"></i> Top Products</h3>
+              <table class="min-w-full text-sm">
+                <thead>
+                  <tr class="text-left text-gray-500 dark:text-gray-400">
+                    <th class="py-2">Product</th>
+                    <th class="py-2">Vendors</th>
+                    <th class="py-2">Margin</th>
+                    <th class="py-2">Sold</th>
+                    <th class="py-2">Stock</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                  <tr>
+                    <td class="py-2 flex items-center gap-2"><i class="fas fa-couch text-lg"></i> Shanty Cotton Seat</td>
+                    <td class="py-2">
+                      <div class="flex -space-x-2">
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                      </div>
+                    </td>
+                    <td class="py-2">XAF 981.00</td>
+                    <td class="py-2">29,536</td>
+                    <td class="py-2"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">In Stock</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 flex items-center gap-2"><i class="fas fa-couch text-lg"></i> Practical Soft Couch</td>
+                    <td class="py-2">
+                      <div class="flex -space-x-2">
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                      </div>
+                    </td>
+                    <td class="py-2">XAF 199.00</td>
+                    <td class="py-2">27,700</td>
+                    <td class="py-2"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">In Stock</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 flex items-center gap-2"><i class="fas fa-chair text-lg"></i> Rustic Rubber Chair</td>
+                    <td class="py-2">
+                      <div class="flex -space-x-2">
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                      </div>
+                    </td>
+                    <td class="py-2">XAF 609.00</td>
+                    <td class="py-2">21,778</td>
+                    <td class="py-2"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">Low Stock</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 flex items-center gap-2"><i class="fas fa-couch text-lg"></i> Ergonomic Frozen Bacon</td>
+                    <td class="py-2">
+                      <div class="flex -space-x-2">
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                      </div>
+                    </td>
+                    <td class="py-2">XAF 923.00</td>
+                    <td class="py-2">20,272</td>
+                    <td class="py-2"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">In Stock</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 flex items-center gap-2"><i class="fas fa-couch text-lg"></i> Unbranded Metal Sofa</td>
+                    <td class="py-2">
+                      <div class="flex -space-x-2">
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                      </div>
+                    </td>
+                    <td class="py-2">XAF 119.00</td>
+                    <td class="py-2">17,374</td>
+                    <td class="py-2"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">In Stock</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 flex items-center gap-2"><i class="fas fa-couch text-lg"></i> Intelligent Soft Sofa</td>
+                    <td class="py-2">
+                      <div class="flex -space-x-2">
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                        <img src="/profile-photo.jpg" class="w-6 h-6 rounded-full border-2 border-white" />
+                      </div>
+                    </td>
+                    <td class="py-2">XAF 595.00</td>
+                    <td class="py-2">14,374</td>
+                    <td class="py-2"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">Low Stock</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Right: Market Share Card -->
+          <div class="flex flex-col gap-6">
+            <!-- Market Share Card -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow flex flex-col items-center">
+              <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i class="fas fa-chart-pie text-blue-500"></i> Market Share</h3>
+              <div class="w-32 h-32 flex items-center justify-center mb-2 relative">
+                <!-- Static SVG Donut Chart Placeholder -->
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="12" />
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#3b82f6" stroke-width="12" stroke-dasharray="75 251" stroke-dashoffset="0" />
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#22c55e" stroke-width="12" stroke-dasharray="50 251" stroke-dashoffset="-75" />
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e42" stroke-width="12" stroke-dasharray="40 251" stroke-dashoffset="-125" />
+                </svg>
+                <span class="absolute text-xl font-bold left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">XAF 6,322.32</span>
+              </div>
+              <span class="text-xs text-gray-500 mb-2">Total transactions</span>
+              <div class="w-full">
+                <div class="flex items-center justify-between text-sm mb-1">
+                  <span class="flex items-center gap-1"><i class="fas fa-frog text-green-500"></i> Alligator</span>
+                  <span>29.7%</span>
+                  <span class="text-green-500">6.01%</span>
+                </div>
+                <div class="flex items-center justify-between text-sm mb-1">
+                  <span class="flex items-center gap-1"><i class="fas fa-check text-blue-500"></i> CheckMark</span>
+                  <span>31.9%</span>
+                  <span class="text-green-500">4.12%</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="flex items-center gap-1"><i class="fas fa-stripe-s text-indigo-500"></i> Stripes</span>
+                  <span>23%</span>
+                  <span class="text-red-500">-3.91%</span>
+                </div>
+              </div>
+            </div>
+            <!-- USD Balance Card -->
+            <div class="bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900 dark:to-blue-900 rounded-xl p-5 shadow flex flex-col items-center justify-center min-h-[120px]">
+              <span class="text-lg font-semibold text-green-700 dark:text-green-300 mb-2">We are making a profit</span>
+              <span class="text-3xl font-bold text-green-800 dark:text-green-200 mb-1">of 4.3%</span>
+              <span class="text-xs text-gray-500 dark:text-gray-300">Better than last Month</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
+
